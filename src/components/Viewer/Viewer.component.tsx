@@ -24,7 +24,7 @@ export const Viewer = () => {
   const [idPhotoEnd, setIdPhotoEnd] = useState(DEFAULT_NB_ELEM_PER_PAGE);
 
   const numberToTime = (n: number) =>
-    `${Math.round(n / 100)}h${n % 100 < 10 ? "0" : ""}${n % 100}`;
+    `${Math.floor(n / 100)}h${n % 100 < 10 ? "0" : ""}${n % 100}`;
 
   const parseData = (datas: Array<string>) =>
     datas.map((data) => ({ time: +data.substring(0, 4), name: data }));
@@ -87,13 +87,13 @@ export const Viewer = () => {
       </p>
       <div className="photos-wrapper">
         {photos
+          .sort(sortByTime)
           .filter(filterByTime(filterStartTime, filterEndTime))
           .filter((_, id) => id >= idPhotoStart && id < idPhotoEnd)
-          .sort(sortByTime)
           .map((photo, id) => (
             <div key={id}>
               <img className="photo" src={`/images/${photo.name}.jpg`} />
-              {photo.name}
+              {photo.name} ({numberToTime(+photo.name.substring(0, 4))})
             </div>
           ))}
       </div>
