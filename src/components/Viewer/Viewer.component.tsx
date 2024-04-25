@@ -2,6 +2,7 @@ import MultiRangeSlider from "multi-range-slider-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Pagination } from "../Pagination/Pagination.component";
+import { DEFAULT_NB_ELEM_PER_PAGE } from "../Pagination/Pagination.utils";
 
 interface PhotosProps {
   time: number;
@@ -16,12 +17,14 @@ export const Viewer = () => {
   const { key } = useParams();
   const [photos, setPhotos] = useState<PhotosProps[]>([]);
   const [title, setTitle] = useState("");
-  const [minValue, setMinValue] = useState(0);
-  const [maxValue, setMaxValue] = useState(0);
-  const [start, setStart] = useState(0);
-  const [end, setEnd] = useState(5);
+  const [filterStartTime, setFilterStartTime] = useState(0);
+  const [filterEndTime, setFilterEndTime] = useState(0);
 
-  const numberToTime = (n: number) => `${Math.round(n / 100)}h${n % 100}`;
+  const [idPhotoStart, setIdPhotoStart] = useState(0);
+  const [idPhotoEnd, setIdPhotoEnd] = useState(DEFAULT_NB_ELEM_PER_PAGE);
+
+  const numberToTime = (n: number) =>
+    `${Math.round(n / 100)}h${n % 100 < 10 ? "0" : ""}${n % 100}`;
 
   const parseData = (datas: Array<string>) =>
     datas.map((data) => ({ time: +data.substring(0, 4), name: data }));
@@ -55,39 +58,57 @@ export const Viewer = () => {
             .then((json) => {
               const parsedData = parseData(json);
               setPhotos(parsedData);
-              setMinValue(parsedData.sort(sortAsc)[0]?.time || 0);
-              setMaxValue(parsedData.sort(sortDesc)[0]?.time || 0);
+              setFilterStartTime(parsedData.sort(sortAsc)[0]?.time || 0);
+              setFilterEndTime(parsedData.sort(sortDesc)[0]?.time || 0);
             });
         }
       });
   }, [key]);
+
+  const filterByTime = (start: number, end: number) => (photo: PhotosProps) =>
+    photo.time >= start && photo.time <= end;
+
+  const sortByTime = (photo1: PhotosProps, photo2: PhotosProps) =>
+    photo1.time - photo2.time;
+
+  // const getNameWithoutPrefixTime = (photoName: string) =>
+  //   photoName.substring(5);
+  // const getFormatedTime = (photoName: string) =>
+  //   `${photoName.substring(0, 2)}h${photoName.substring(2, 4)}`;
 
   return (
     <>
       <h1>{title}</h1>
       <p>
         Nombre de photo affichées{" "}
-        {
-          photos
-            .filter((photo) => photo.time >= minValue)
-            .filter((photo) => photo.time <= maxValue).length
-        }{" "}
+        {photos.filter(filterByTime(filterStartTime, filterEndTime)).length}{" "}
         (sur un total de {photos.length}), sur le créneau{" "}
-        {numberToTime(minValue)} - {numberToTime(maxValue)}
+        {numberToTime(filterStartTime)} - {numberToTime(filterEndTime)}
       </p>
-      <ul>
+      <div className="photos-wrapper">
         {photos
-          .filter((photo) => photo.time >= minValue)
-          .filter((photo) => photo.time <= maxValue)
-          .filter((_, id) => id >= start && id < end)
+          .filter(filterByTime(filterStartTime, filterEndTime))
+          .filter((_, id) => id >= idPhotoStart && id < idPhotoEnd)
+          .sort(sortByTime)
+          .map((photo, id) => (
+            <div key={id}>
+              <img className="photo" src={`/images/${photo.name}.jpg`} />
+              {photo.name}
+            </div>
+          ))}
+      </div>
+      {/* <ul>
+        {photos
+          .filter(filterByTime(filterStartTime, filterEndTime))
+          .filter((_, id) => id >= idPhotoStart && id < idPhotoEnd)
           .sort((photo1, photo2) => photo1.time - photo2.time)
           .map((photo, id) => (
             <li key={id}>
-              {photo.name.substring(0, 2)}h{photo.name.substring(2, 4)} -{" "}
-              {photo.name.substring(5)}
+              {getFormatedTime(photo.name)} -{" "}
+              {getNameWithoutPrefixTime(photo.name)}
             </li>
           ))}
-      </ul>
+      </ul> */}
       <MultiRangeSlider
         min={
           photos.sort((photo1, photo2) => photo1.time - photo2.time)[0]?.time
@@ -96,22 +117,20 @@ export const Viewer = () => {
           photos.sort((photo1, photo2) => photo2.time - photo1.time)[0]?.time
         }
         step={1}
-        minValue={minValue}
-        maxValue={maxValue}
+        minValue={filterStartTime}
+        maxValue={filterEndTime}
         onInput={(e) => {
-          setMinValue(e.minValue);
-          setMaxValue(e.maxValue);
+          setFilterStartTime(e.minValue);
+          setFilterEndTime(e.maxValue);
         }}
       />
       <Pagination
         total={
-          photos
-            .filter((photo) => photo.time >= minValue)
-            .filter((photo) => photo.time <= maxValue).length
+          photos.filter(filterByTime(filterStartTime, filterEndTime)).length
         }
         onPageChange={(start: number, end: number) => {
-          setStart(start);
-          setEnd(end);
+          setIdPhotoStart(start);
+          setIdPhotoEnd(end);
         }}
       />
     </>

@@ -1,24 +1,28 @@
 import { useState } from "react";
+import { DEFAULT_NB_ELEM_PER_PAGE } from "./Pagination.utils";
 
 interface PaginationProps {
   total: number;
   onPageChange: (start: number, end: number) => void;
 }
 export const Pagination = ({ total, onPageChange }: PaginationProps) => {
-  const [elemPerPage] = useState(5);
+  const [elemPerPage] = useState(DEFAULT_NB_ELEM_PER_PAGE);
   const [currentPage, setCurrentPage] = useState(1);
 
   const nbPage = Math.ceil(total / elemPerPage);
 
   const changePage = (page: number) => {
     setCurrentPage(page);
-    const start = (page - 1) * elemPerPage;
-    const end = start + elemPerPage;
-    onPageChange(start, end);
+    const idFirstElement = (page - 1) * elemPerPage;
+    const idLastElement = idFirstElement + elemPerPage;
+    onPageChange(idFirstElement, idLastElement);
   };
+
   return (
     <>
-      elemPerPage: {elemPerPage}
+      <div>
+        <em>elemPerPage: {elemPerPage}</em>
+      </div>
       <div>
         {[...Array(nbPage)]
           .map((_, i) => i + 1)
