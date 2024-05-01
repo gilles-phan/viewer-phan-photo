@@ -5,7 +5,8 @@ import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Home } from "./components/Home/Home.component.tsx";
 import { Menu } from "./components/Menu/Menu.component.tsx";
-import { Viewer } from "./components/Viewer/Viewer.component.tsx";
+import { Shooting } from "./components/Shooting/Shooting.component.tsx";
+import { Shootings } from "./components/Shootings/Shootings.component.tsx";
 
 const router = createBrowserRouter([
   {
@@ -17,8 +18,12 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: "/viewer/:key",
-    element: <Viewer />,
+    path: "/shootings",
+    element: <Shootings />,
+  },
+  {
+    path: "/shooting/:uuid",
+    element: <Shooting />,
   },
 ]);
 
