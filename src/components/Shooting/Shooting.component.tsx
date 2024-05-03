@@ -91,7 +91,7 @@ export const Shooting = () => {
             <div className="card" key={id}>
               <img
                 src={`/images/${folderName}/${photo.name}.jpg`}
-                className="card-img-top"
+                className="card-img-top mt-2"
                 alt="..."
               />
               <div className="card-body">

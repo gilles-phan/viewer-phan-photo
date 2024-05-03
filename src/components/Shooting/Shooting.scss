@@ -17,5 +17,14 @@
     margin: 0.8em;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
+    .card{
+        overflow: hidden;
+        img {
+          object-fit: cover;
+          margin: auto;
+          width: 550px;
+          height: 550px;
+        }
+    }
   }
 }
