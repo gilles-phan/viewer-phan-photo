@@ -1,11 +1,10 @@
-import MultiRangeSlider from "multi-range-slider-react";
-
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Pagination } from "../Pagination/Pagination.component";
 import { DEFAULT_NB_ELEM_PER_PAGE } from "../Pagination/Pagination.utils";
 import { FormatedPhotosProps, PhotosProps } from "./Shooting.interface";
-import RangeSlider from "react-range-slider-input";
+import MultiRangeSlider from "multi-range-slider-react";
+// import RangeSlider from "react-range-slider-input";
 import ImageViewer from "react-simple-image-viewer";
 import "react-range-slider-input/dist/style.css";
 import {
@@ -33,7 +32,7 @@ export const Shooting = () => {
   const [isViewerOpen, setIsViewerOpen] = useState(false);
   const [images, setImages] = useState<Array<string>>([]); // current displayed images
 
-  const openImageViewer = useCallback((index) => {
+  const openImageViewer = useCallback((index: number) => {
     setCurrentImage(index);
     setIsViewerOpen(true);
   }, []);
