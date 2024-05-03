@@ -7,5 +7,15 @@ export const getPathFromShooting = (shooting: ShootingProps) => {
   const folder = "images";
   const year = shooting.date.substr(0, 4);
   const { imagePath: fileName, date } = shooting;
-  return [folder, year, date,fileName].join("/");
+  return [folder, year, date, fileName].join("/");
+};
+
+export const formatDate = (strDate: string) => {
+  const res = new Date(strDate).toLocaleDateString("fr-FR", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+  return res.charAt(0).toUpperCase() + res.slice(1);
 };

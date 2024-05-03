@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { getHeader } from "../Shooting/Shooting.utils";
 import { ShootingProps } from "./Shootings.interface";
 import "./Shootings.scss";
-import { getPathFromShooting, sortByShootingDate } from "./Shootings.utils";
+import {
+  formatDate,
+  getPathFromShooting,
+  sortByShootingDate,
+} from "./Shootings.utils";
 
 export const Shootings = () => {
   const [shootings, setShootings] = useState<ShootingProps[]>([]);
@@ -30,7 +34,7 @@ export const Shootings = () => {
             <div className="card-body">
               <h5 className="card-title">{shooting.label}</h5>
               <h6 className="card-subtitle mb-2 text-body-secondary">
-                {shooting.date}
+                {formatDate(shooting.date)}
               </h6>
 
               {shooting.description && (

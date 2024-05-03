@@ -1,3 +1,4 @@
+import { Fragment } from "react/jsx-runtime";
 import { navigation } from "./Menu.utils";
 
 export const Menu = () => {
@@ -21,7 +22,7 @@ export const Menu = () => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             {navigation.map((item, id) => (
-              <>
+              <Fragment key={id}>
                 {!item.hidden && (
                   <li key={id} className="nav-item">
                     <a className="nav-link" href={item.link}>
@@ -29,7 +30,7 @@ export const Menu = () => {
                     </a>
                   </li>
                 )}
-              </>
+              </Fragment>
             ))}
           </ul>
           <form className="d-flex" role="search">
