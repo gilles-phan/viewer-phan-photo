@@ -1,9 +1,12 @@
 import MultiRangeSlider from "multi-range-slider-react";
+
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Pagination } from "../Pagination/Pagination.component";
 import { DEFAULT_NB_ELEM_PER_PAGE } from "../Pagination/Pagination.utils";
 import { FormatedPhotosProps, PhotosProps } from "./Shooting.interface";
+import RangeSlider from "react-range-slider-input";
+import "react-range-slider-input/dist/style.css";
 import {
   getHeader,
   numberToTime,
@@ -13,6 +16,7 @@ import {
   filterByTime,
   sortByTime,
 } from "./Shooting.utils";
+import "./Shooting.scss";
 
 export const Shooting = () => {
   const { uuid } = useParams();
@@ -32,7 +36,7 @@ export const Shooting = () => {
         .then((response) => response.json())
         .then((datas: PhotosProps) => {
           const parsedData = formateDatas(datas.data);
-          setTitle(datas.name);
+          setTitle(datas.title);
           setFolderName(datas.folderName);
           setPhotos(parsedData);
           setFilterStartTime(parsedData.sort(sortAsc)[0]?.time || 0);
@@ -42,43 +46,59 @@ export const Shooting = () => {
   }, [uuid]);
 
   return (
-    <>
+    <div className="shooting-wrapper">
       <h1>{title}</h1>
-      <p>
-        Nombre de photo affichées{" "}
-        {photos.filter(filterByTime(filterStartTime, filterEndTime)).length}{" "}
-        (sur un total de {photos.length}), sur le créneau{" "}
-        {numberToTime(filterStartTime)} - {numberToTime(filterEndTime)}
-      </p>
+      <div className="filter">
+        <p>
+          Nombre de photo affichées{" "}
+          {photos.filter(filterByTime(filterStartTime, filterEndTime)).length}{" "}
+          (sur un total de {photos.length}), sur le créneau{" "}
+          {numberToTime(filterStartTime)} - {numberToTime(filterEndTime)}
+        </p>
 
-      <MultiRangeSlider
+        {/* <RangeSlider
         min={
           photos.sort((photo1, photo2) => photo1.time - photo2.time)[0]?.time
         }
         max={
           photos.sort((photo1, photo2) => photo2.time - photo1.time)[0]?.time
         }
-        step={1}
-        minValue={filterStartTime}
-        maxValue={filterEndTime}
-        onInput={(e) => {
-          setFilterStartTime(e.minValue);
-          setFilterEndTime(e.maxValue);
-        }}
-      />
-      <hr />
+      /> */}
+
+        <MultiRangeSlider
+          min={
+            photos.sort((photo1, photo2) => photo1.time - photo2.time)[0]?.time
+          }
+          max={
+            photos.sort((photo1, photo2) => photo2.time - photo1.time)[0]?.time
+          }
+          step={1}
+          minValue={filterStartTime}
+          maxValue={filterEndTime}
+          onInput={(e) => {
+            setFilterStartTime(e.minValue);
+            setFilterEndTime(e.maxValue);
+          }}
+        />
+      </div>
+
       <div className="photos-wrapper">
         {photos
           .sort(sortByTime)
           .filter(filterByTime(filterStartTime, filterEndTime))
           .filter((_, id) => id >= idPhotoStart && id < idPhotoEnd)
           .map((photo, id) => (
-            <div key={id}>
+            <div className="card" key={id}>
               <img
-                className="photo"
                 src={`/images/${folderName}/${photo.name}.jpg`}
+                className="card-img-top"
+                alt="..."
               />
-              {photo.name} ({numberToTime(+photo.name.substring(0, 4))})
+              <div className="card-body">
+                <p className="card-text">
+                  {photo.name} ({numberToTime(+photo.name.substring(0, 4))})
+                </p>
+              </div>
             </div>
           ))}
       </div>
@@ -91,6 +111,6 @@ export const Shooting = () => {
           setIdPhotoEnd(end);
         }}
       />
-    </>
+    </div>
   );
 };

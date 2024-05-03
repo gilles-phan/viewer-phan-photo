@@ -5,10 +5,5 @@ export interface FormatedPhotosProps {
 export interface PhotosProps {
   data: string[];
   folderName: string;
-  name: string;
+  title: string;
 }
-// export interface KeyLabelProps {
-//   uuid: string;
-//   label: string;
-//   date: string;
-// }
