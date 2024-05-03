@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getHeader } from "../Shooting/Shooting.utils";
 import { ShootingProps } from "./Shootings.interface";
 import "./Shootings.scss";
+import { getPathFromShooting } from "./Shootings.utils";
 
 export const Shootings = () => {
   const [shootings, setShootings] = useState<ShootingProps[]>([]);
@@ -11,7 +12,6 @@ export const Shootings = () => {
       .then((response) => response.json())
       .then((data) => {
         setShootings(data);
-        console.log(data);
       });
   }, []);
   return (
@@ -25,13 +25,22 @@ export const Shootings = () => {
           )
           .map((shooting, id) => (
             <div key={id} className="card">
-              {/* <img src="..." className="card-img-top" alt="..." /> */}
+              {shooting.imagePath && (
+                <img
+                  src={getPathFromShooting(shooting)}
+                  className="card-img-top"
+                  alt="..."
+                />
+              )}
               <div className="card-body">
                 <h5 className="card-title">{shooting.label}</h5>
-                {/* <p className="card-text">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </p> */}
+                <h6 className="card-subtitle mb-2 text-body-secondary">
+                  {shooting.date}
+                </h6>
+
+                {shooting.description && (
+                  <p className="card-text">{shooting.description}</p>
+                )}
                 <div className="text-end">
                   <a
                     href={`shooting/${shooting.uuid}`}
