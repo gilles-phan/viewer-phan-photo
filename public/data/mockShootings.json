@@ -1,15 +1,23 @@
 [
   {
     "uuid": "018f23ff-b65f-79fb-a2e0-cd72eb0245ff",
-    "label": "Treck 13-14 avril 2024",
+    "label": "Trec de ???",
     "description": "Photos livrées du trec",
     "imagePath": "1800_D85_9784-Avec accentuation-Bruit-Modifier_SD.jpg",
     "date": "2024-04-13"
   },
   {
+    "uuid": "cb1317fe-e936-48a3-9aa5-551e0e778f78",
+    "label": "Trec de Machézal",
+    "description": "Aperçu des photos à commander",
+    "imagePath": "images.jpg",
+    "date": "2024-05-05"
+  },
+  {
     "uuid": "018f2423-d105-79d4-935b-4f2beedb9588",
     "label": "Portrait Sylvie et Didou",
     "description": "Portrait de Sylvie pour son CV",
+    "hidden":true,
     "imagePath": "1914_Z91_2371_SD.jpg",
     "date": "2024-04-27"
   }
