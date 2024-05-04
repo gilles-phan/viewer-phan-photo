@@ -19,7 +19,7 @@ export const Pagination = ({ total, onPageChange }: PaginationProps) => {
   const pageDown20 = () => currentPage > 1 && changePage(currentPage - 20);
   const pageUp20 = () => currentPage < nbPage && changePage(currentPage + 20);
 
-  const isAllPageDisplayed = nbPage < 20;
+  const isAllPageDisplayed = nbPage < 10;
 
   const isPreviousOrNextPage = (item: number) =>
     currentPage >= item - 2 && currentPage <= item + 2;

@@ -31,10 +31,13 @@ export const sortDesc = (
 ) => photo2.time - photo1.time;
 
 export const filterByTime =
-(start: number, end: number) => (photo: FormatedPhotosProps) =>
-  photo.time >= start && photo.time <= end;
+  (start: number, end: number) => (photo: FormatedPhotosProps) =>
+    photo.time >= start && photo.time <= end;
 
 export const sortByTime = (
-photo1: FormatedPhotosProps,
-photo2: FormatedPhotosProps
+  photo1: FormatedPhotosProps,
+  photo2: FormatedPhotosProps
 ) => photo1.time - photo2.time;
+
+export const getThumbnailPathFromSd = (fileNameSd: string) =>
+  fileNameSd.replace("_SD", "_thumbnail");

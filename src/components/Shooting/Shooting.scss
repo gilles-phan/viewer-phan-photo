@@ -1,3 +1,32 @@
+@media screen and (min-width: 1281px) {
+  .photos-wrapper {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media screen and (min-width: 1024px) and (max-width: 1280px) {
+  .photos-wrapper {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .photos-wrapper {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (min-width: 480px) and (max-width: 768px) {
+  .photos-wrapper {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .photos-wrapper {
+    grid-template-columns: 1fr;
+  }
+}
+
 .shooting-wrapper {
   display: grid;
   grid-template-rows: 12em 8em 8em 1fr;
@@ -24,21 +53,20 @@
     grid-row: 4;
     display: grid;
     margin: 0.8em;
-    grid-template-columns: repeat(3, 1fr);
     gap: 10px;
     .card {
       overflow: hidden;
       img {
         cursor: pointer;
-        object-fit: cover;
-        margin: auto;
-        width: 550px;
-        height: 550px;
+        // object-fit: cover;
+        // margin: auto;
+        // width: 550px;
+        // height: 550px;
       }
     }
   }
 
-  .image-viewer-wrapper{
+  .image-viewer-wrapper {
     z-index: 9;
   }
 }

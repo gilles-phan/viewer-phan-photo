@@ -5,8 +5,8 @@ import { DEFAULT_NB_ELEM_PER_PAGE } from "../Pagination/Pagination.utils";
 import { FormatedPhotosProps, PhotosProps } from "./Shooting.interface";
 import MultiRangeSlider from "multi-range-slider-react";
 // import RangeSlider from "react-range-slider-input";
+// import "react-range-slider-input/dist/style.css";
 import ImageViewer from "react-simple-image-viewer";
-import "react-range-slider-input/dist/style.css";
 import toast, { Toaster } from "react-hot-toast";
 import {
   getHeader,
@@ -16,6 +16,7 @@ import {
   sortDesc,
   filterByTime,
   sortByTime,
+  getThumbnailPathFromSd,
 } from "./Shooting.utils";
 import "./Shooting.scss";
 
@@ -97,21 +98,27 @@ export const Shooting = () => {
         }
       /> */}
 
-        <MultiRangeSlider
-          min={
-            photos.sort((photo1, photo2) => photo1.time - photo2.time)[0]?.time
-          }
-          max={
-            photos.sort((photo1, photo2) => photo2.time - photo1.time)[0]?.time
-          }
-          step={1}
-          minValue={filterStartTime}
-          maxValue={filterEndTime}
-          onInput={(e) => {
-            setFilterStartTime(e.minValue);
-            setFilterEndTime(e.maxValue);
-          }}
-        />
+        <div className="row">
+          <div className="col">
+            <MultiRangeSlider
+              min={
+                photos.sort((photo1, photo2) => photo1.time - photo2.time)[0]
+                  ?.time
+              }
+              max={
+                photos.sort((photo1, photo2) => photo2.time - photo1.time)[0]
+                  ?.time
+              }
+              step={45}
+              minValue={filterStartTime}
+              maxValue={filterEndTime}
+              onInput={(e) => {
+                setFilterStartTime(e.minValue);
+                setFilterEndTime(e.maxValue);
+              }}
+            />
+          </div>
+        </div>
       </div>
       <div className="text-center pagination-1">
         <Pagination
@@ -132,10 +139,9 @@ export const Shooting = () => {
           .map((photo, id) => (
             <div className="card" key={id}>
               <img
-                src={`/images/${folderName}/${photo.name.slice(
-                  0,
-                  -3
-                )}_thumbnail.jpg`}
+                src={getThumbnailPathFromSd(
+                  `/images/${folderName}/${photo.name}.jpg`
+                )}
                 className="card-img-top mt-2"
                 onClick={() => openImageViewer(id)}
               />
