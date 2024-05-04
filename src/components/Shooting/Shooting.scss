@@ -1,6 +1,6 @@
 .shooting-wrapper {
   display: grid;
-  grid-template-rows: 12em 12em 1fr;
+  grid-template-rows: 12em 8em 8em 1fr;
 
   h1 {
     grid-row: 1;
@@ -11,8 +11,17 @@
     grid-row: 2;
     margin: auto;
   }
+  .pagination-1 {
+    grid-row: 3;
+    margin: auto;
+  }
+  .pagination-2 {
+    grid-row: 5;
+    margin: auto;
+  }
 
   .photos-wrapper {
+    grid-row: 4;
     display: grid;
     margin: 0.8em;
     grid-template-columns: repeat(3, 1fr);
@@ -20,11 +29,16 @@
     .card {
       overflow: hidden;
       img {
+        cursor: pointer;
         object-fit: cover;
         margin: auto;
         width: 550px;
         height: 550px;
       }
     }
+  }
+
+  .image-viewer-wrapper{
+    z-index: 9;
   }
 }

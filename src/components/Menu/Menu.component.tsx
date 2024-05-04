@@ -33,34 +33,8 @@ export const Menu = () => {
               </Fragment>
             ))}
           </ul>
-          <form className="d-flex" role="search">
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button className="btn btn-outline-success" type="submit">
-              Search
-            </button>
-          </form>
         </div>
       </div>
     </nav>
-
-    //  <div className="menu">
-    //   <div className="logo">logo</div>
-    //   {navigation.map((item, id) => {
-    //     if (item.hidden) {
-    //       return <Fragment key={id}></Fragment>;
-    //     } else {
-    //       return (
-    //         <div key={id} className="menu-item">
-    //           <a href={item.link}>{item.label}</a>
-    //         </div>
-    //       );
-    //     }
-    //   })}
-    // </div>
   );
 };

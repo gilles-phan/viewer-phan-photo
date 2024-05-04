@@ -7,6 +7,7 @@ import MultiRangeSlider from "multi-range-slider-react";
 // import RangeSlider from "react-range-slider-input";
 import ImageViewer from "react-simple-image-viewer";
 import "react-range-slider-input/dist/style.css";
+import toast, { Toaster } from "react-hot-toast";
 import {
   getHeader,
   numberToTime,
@@ -42,6 +43,11 @@ export const Shooting = () => {
     setIsViewerOpen(false);
   };
 
+  const copyText = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast(`"${text}" copié !`, { icon: "👏", position: "top-right" });
+  };
+
   useEffect(() => {
     // call
 
@@ -60,8 +66,6 @@ export const Shooting = () => {
   }, [uuid]);
 
   useEffect(() => {
-    console.log(photos);
-
     const img: Array<string> = photos
       .sort(sortByTime)
       .filter(filterByTime(filterStartTime, filterEndTime))
@@ -70,8 +74,6 @@ export const Shooting = () => {
         (photo: FormatedPhotosProps) =>
           `/images/${folderName}/${photo.name}.jpg`
       );
-
-    console.log(img);
 
     setImages(img);
   }, [filterStartTime, filterEndTime, idPhotoStart, idPhotoEnd, photos]);
@@ -111,6 +113,17 @@ export const Shooting = () => {
           }}
         />
       </div>
+      <div className="text-center pagination-1">
+        <Pagination
+          total={
+            photos.filter(filterByTime(filterStartTime, filterEndTime)).length
+          }
+          onPageChange={(start: number, end: number) => {
+            setIdPhotoStart(start);
+            setIdPhotoEnd(end);
+          }}
+        />
+      </div>
       <div className="photos-wrapper">
         {photos
           .sort(sortByTime)
@@ -119,13 +132,23 @@ export const Shooting = () => {
           .map((photo, id) => (
             <div className="card" key={id}>
               <img
-                src={`/images/${folderName}/${photo.name}.jpg`}
+                src={`/images/${folderName}/${photo.name.slice(
+                  0,
+                  -3
+                )}_thumbnail.jpg`}
                 className="card-img-top mt-2"
                 onClick={() => openImageViewer(id)}
               />
               <div className="card-body">
-                <p className="card-text">
-                  {photo.name} ({numberToTime(+photo.name.substring(0, 4))})
+                <p className="card-text text-center">
+                  Photo : {photo.name.slice(0, -3)} (
+                  {numberToTime(+photo.name.substring(0, 4))})
+                  <button
+                    className="btn btn-success"
+                    onClick={() => copyText(photo.name.slice(0, -3))}
+                  >
+                    copier le nom
+                  </button>
                 </p>
               </div>
             </div>
@@ -133,23 +156,28 @@ export const Shooting = () => {
       </div>
 
       {isViewerOpen && (
-        <ImageViewer
-          src={images}
-          currentIndex={currentImage}
-          disableScroll={false}
-          closeOnClickOutside={true}
-          onClose={closeImageViewer}
-        />
+        <div className="image-viewer-wrapper">
+          <ImageViewer
+            src={images}
+            currentIndex={currentImage}
+            disableScroll={false}
+            closeOnClickOutside={true}
+            onClose={closeImageViewer}
+          />
+        </div>
       )}
-      <Pagination
-        total={
-          photos.filter(filterByTime(filterStartTime, filterEndTime)).length
-        }
-        onPageChange={(start: number, end: number) => {
-          setIdPhotoStart(start);
-          setIdPhotoEnd(end);
-        }}
-      />
+      <div className="text-center pagination-2">
+        <Pagination
+          total={
+            photos.filter(filterByTime(filterStartTime, filterEndTime)).length
+          }
+          onPageChange={(start: number, end: number) => {
+            setIdPhotoStart(start);
+            setIdPhotoEnd(end);
+          }}
+        />
+      </div>
+      <Toaster />
     </div>
   );
 };

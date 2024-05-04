@@ -1,1 +1,1 @@
-export const DEFAULT_NB_ELEM_PER_PAGE = 20;
+export const DEFAULT_NB_ELEM_PER_PAGE = 16;
