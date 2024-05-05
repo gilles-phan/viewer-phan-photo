@@ -22,16 +22,16 @@ export const Pagination = ({ total, onPageChange }: PaginationProps) => {
   const isAllPageDisplayed = nbPage < 10;
 
   const isPreviousOrNextPage = (item: number) =>
-    currentPage >= item - 2 && currentPage <= item + 2;
+    currentPage >= item - 1 && currentPage <= item + 1;
 
   return (
     <div className="row mx-0 my-5">
       <div className="col">
-        <div className="pagination pagination-lg justify-content-center">
+        <div className="pagination justify-content-center">
           {nbPage > 50 && (
             <div className={`page-item${currentPage <= 20 ? " disabled" : ""}`}>
               <button className="page-link" onClick={pageDown20}>
-                &laquo; -20
+                -20
               </button>
             </div>
           )}
@@ -82,7 +82,7 @@ export const Pagination = ({ total, onPageChange }: PaginationProps) => {
               }`}
             >
               <button className="page-link" onClick={pageUp20}>
-                +20&raquo;
+                +20
               </button>
             </div>
           )}

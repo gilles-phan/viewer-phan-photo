@@ -1,5 +1,8 @@
 import { FormatedPhotosProps } from "./Shooting.interface";
 
+
+export const IS_SLIDER_DISPLAYED = false;
+
 /**
  * The header to request json files.
  * To be moved into a generic utils file ?
@@ -41,3 +44,11 @@ export const sortByTime = (
 
 export const getThumbnailPathFromSd = (fileNameSd: string) =>
   fileNameSd.replace("_SD", "_thumbnail");
+
+const filterSd = (fileName: string) => fileName.includes("_SD");
+const removeExtensionJpg = (fileName: string) => fileName.replace(".jpg", "");
+
+export const getSdFileName = (listFiles: Array<string>) =>
+  listFiles.filter(filterSd).map(removeExtensionJpg);
+
+  

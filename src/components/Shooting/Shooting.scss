@@ -1,35 +1,36 @@
 @media screen and (min-width: 1281px) {
   .photos-wrapper {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(6, 1fr);
   }
 }
 @media screen and (min-width: 1024px) and (max-width: 1280px) {
   .photos-wrapper {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media screen and (min-width: 768px) and (max-width: 1024px) {
   .photos-wrapper {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media screen and (min-width: 480px) and (max-width: 768px) {
   .photos-wrapper {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media screen and (max-width: 480px) {
   .photos-wrapper {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 .shooting-wrapper {
   display: grid;
-  grid-template-rows: 12em 8em 8em 1fr;
+  // grid-template-rows: 12em 8em 8em 1fr;
+  grid-template-rows: 3em 8em 1fr;
 
   h1 {
     grid-row: 1;
@@ -40,17 +41,13 @@
     grid-row: 2;
     margin: auto;
   }
-  .pagination-1 {
-    grid-row: 3;
-    margin: auto;
-  }
-  .pagination-2 {
-    grid-row: 5;
+  .pagination {
+    grid-row: 4;
     margin: auto;
   }
 
   .photos-wrapper {
-    grid-row: 4;
+    grid-row: 3;
     display: grid;
     margin: 0.8em;
     gap: 10px;

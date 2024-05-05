@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Pagination } from "../Pagination/Pagination.component";
 import { DEFAULT_NB_ELEM_PER_PAGE } from "../Pagination/Pagination.utils";
-import { FormatedPhotosProps, PhotosProps } from "./Shooting.interface";
+import { FormatedPhotosProps } from "./Shooting.interface";
 import MultiRangeSlider from "multi-range-slider-react";
 // import RangeSlider from "react-range-slider-input";
 // import "react-range-slider-input/dist/style.css";
@@ -17,8 +17,11 @@ import {
   filterByTime,
   sortByTime,
   getThumbnailPathFromSd,
+  getSdFileName,
+  IS_SLIDER_DISPLAYED,
 } from "./Shooting.utils";
 import "./Shooting.scss";
+import { ShootingProps } from "../Shootings/Shootings.interface";
 
 export const Shooting = () => {
   const { uuid } = useParams();
@@ -53,16 +56,41 @@ export const Shooting = () => {
     // call
 
     if (uuid) {
-      fetch(`../data/${uuid}.json`, { headers: getHeader() })
-        .then((response) => response.json())
-        .then((datas: PhotosProps) => {
-          const parsedData = formateDatas(datas.data);
-          setTitle(datas.title);
-          setFolderName(datas.folderName);
-          setPhotos(parsedData);
-          setFilterStartTime(parsedData.sort(sortAsc)[0]?.time || 0);
-          setFilterEndTime(parsedData.sort(sortDesc)[0]?.time || 0);
-        });
+      if (!import.meta.env.PROD) {
+        // dev code
+        // fetch(`../data/${uuid}.json`, { headers: getHeader() })
+        //   .then((response) => response.json())
+        //   .then((datas: PhotosProps) => {
+        //     const parsedData = formateDatas(datas.data);
+        //     setTitle(datas.title);
+        //     setFolderName(datas.folderName);
+        //     setPhotos(parsedData);
+        //     setFilterStartTime(parsedData.sort(sortAsc)[0]?.time || 0);
+        //     setFilterEndTime(parsedData.sort(sortDesc)[0]?.time || 0);
+        //   });
+      } else {
+        // production code
+        fetch("../data/mockShootings.json", { headers: getHeader() })
+          .then((response) => response.json())
+          .then((datas) => {
+            const date = datas.find(
+              (shooting: ShootingProps) => shooting.uuid === uuid
+            ).date;
+            const year = date.substring(0, 4);
+            const scriptPhp = `../images/${year}/${date}/list.php`;
+
+            fetch(scriptPhp, { headers: getHeader() })
+              .then((responseList) => responseList.json())
+              .then((listFiles) => {
+                const parsedData = formateDatas(getSdFileName(listFiles));
+                setTitle(datas.title);
+                setFolderName(`${year}/${date}`);
+                setPhotos(parsedData);
+                setFilterStartTime(parsedData.sort(sortAsc)[0]?.time || 0);
+                setFilterEndTime(parsedData.sort(sortDesc)[0]?.time || 0);
+              });
+          });
+      }
     }
   }, [uuid]);
 
@@ -83,10 +111,12 @@ export const Shooting = () => {
       <h1>{title}</h1>
       <div className="filter">
         <p>
-          Nombre de photo affichées{" "}
+          Nombre de photos : {photos.length} , sur le créneau{" "}
+          {numberToTime(filterStartTime)} - {numberToTime(filterEndTime)}
+          {/* Nombre de photo affichées{" "}
           {photos.filter(filterByTime(filterStartTime, filterEndTime)).length}{" "}
           (sur un total de {photos.length}), sur le créneau{" "}
-          {numberToTime(filterStartTime)} - {numberToTime(filterEndTime)}
+          {numberToTime(filterStartTime)} - {numberToTime(filterEndTime)} */}
         </p>
 
         {/* <RangeSlider
@@ -98,38 +128,29 @@ export const Shooting = () => {
         }
       /> */}
 
-        <div className="row">
-          <div className="col">
-            <MultiRangeSlider
-              min={
-                photos.sort((photo1, photo2) => photo1.time - photo2.time)[0]
-                  ?.time
-              }
-              max={
-                photos.sort((photo1, photo2) => photo2.time - photo1.time)[0]
-                  ?.time
-              }
-              step={45}
-              minValue={filterStartTime}
-              maxValue={filterEndTime}
-              onInput={(e) => {
-                setFilterStartTime(e.minValue);
-                setFilterEndTime(e.maxValue);
-              }}
-            />
+        {IS_SLIDER_DISPLAYED && (
+          <div className="row">
+            <div className="col">
+              <MultiRangeSlider
+                min={
+                  photos.sort((photo1, photo2) => photo1.time - photo2.time)[0]
+                    ?.time
+                }
+                max={
+                  photos.sort((photo1, photo2) => photo2.time - photo1.time)[0]
+                    ?.time
+                }
+                step={45}
+                minValue={filterStartTime}
+                maxValue={filterEndTime}
+                onInput={(e) => {
+                  setFilterStartTime(e.minValue);
+                  setFilterEndTime(e.maxValue);
+                }}
+              />
+            </div>
           </div>
-        </div>
-      </div>
-      <div className="text-center pagination-1">
-        <Pagination
-          total={
-            photos.filter(filterByTime(filterStartTime, filterEndTime)).length
-          }
-          onPageChange={(start: number, end: number) => {
-            setIdPhotoStart(start);
-            setIdPhotoEnd(end);
-          }}
-        />
+        )}
       </div>
       <div className="photos-wrapper">
         {photos
@@ -172,7 +193,7 @@ export const Shooting = () => {
           />
         </div>
       )}
-      <div className="text-center pagination-2">
+      <div className="text-center pagination">
         <Pagination
           total={
             photos.filter(filterByTime(filterStartTime, filterEndTime)).length
