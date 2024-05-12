@@ -1,4 +1,5 @@
-export interface PaginationProps {
-  total: number;
-  onPageChange: (start: number, end: number) => void;
+export interface PaginationProps{
+    type: "button" | "dropdown";
+    total: number;
+    onPageChange: (start: number, end: number) => void;
 }

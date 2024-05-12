@@ -11,7 +11,7 @@ export const IS_SLIDER_DISPLAYED = false;
  */
 export const getHeader = () => ({
   "Content-Type": "application/json",
-  Accept: "application/json",
+  "Accept": "application/json",
 });
 
 export const numberToTime = (n: number) =>

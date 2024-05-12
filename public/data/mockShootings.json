@@ -20,5 +20,21 @@
     "hidden":true,
     "imagePath": "1914_Z91_2371_SD.jpg",
     "date": "2024-04-27"
+  },
+  {
+    "uuid": "e8d9c8ec-c109-4aaf-8019-bed7852a107a",
+    "label": "Dimanche Maëlle",
+    "description": "Dimanche moto",
+    "hidden":true,
+    "imagePath": "1713_Z91_5091_SD.jpg",
+    "date": "2024-05-11"
+  },
+  {
+    "uuid": "0c6bb8ef-49bd-4058-9c8b-e0701a0d76e7",
+    "label": "Sophie et Guillaume",
+    "description": "Portrait Sophie (photo à choisir)",
+    "hidden":true,
+    "imagePath": "1216_Z91_4800_SD.jpg",
+    "date": "2024-05-10"
   }
 ]

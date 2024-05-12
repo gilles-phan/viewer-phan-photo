@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Pagination } from "../Pagination/Pagination.component";
 import { DEFAULT_NB_ELEM_PER_PAGE } from "../Pagination/Pagination.utils";
 import { FormatedPhotosProps } from "./Shooting.interface";
 import MultiRangeSlider from "multi-range-slider-react";
@@ -22,6 +21,7 @@ import {
 } from "./Shooting.utils";
 import "./Shooting.scss";
 import { ShootingProps } from "../Shootings/Shootings.interface";
+import { Pagination } from "../Pagination/Pagination.component";
 
 export const Shooting = () => {
   const { uuid } = useParams();
@@ -58,12 +58,14 @@ export const Shooting = () => {
     if (uuid) {
       if (!import.meta.env.PROD) {
         // dev code
-        // fetch(`../data/${uuid}.json`, { headers: getHeader() })
-        //   .then((response) => response.json())
-        //   .then((datas: PhotosProps) => {
-        //     const parsedData = formateDatas(datas.data);
-        //     setTitle(datas.title);
-        //     setFolderName(datas.folderName);
+        // TODO à refaire !
+        // const scriptPhp = `../data/${uuid}.json`;
+        // fetch(scriptPhp, { headers: getHeader() })
+        //   .then((responseList) => responseList.json())
+        //   .then((listFiles) => {
+        //     const parsedData = formateDatas(getSdFileName(listFiles));
+        //     // setTitle(datas.title);
+        //     // setFolderName(`${year}/${date}`);
         //     setPhotos(parsedData);
         //     setFilterStartTime(parsedData.sort(sortAsc)[0]?.time || 0);
         //     setFilterEndTime(parsedData.sort(sortDesc)[0]?.time || 0);
@@ -73,6 +75,8 @@ export const Shooting = () => {
         fetch("../data/mockShootings.json", { headers: getHeader() })
           .then((response) => response.json())
           .then((datas) => {
+            console.log(datas);
+
             const date = datas.find(
               (shooting: ShootingProps) => shooting.uuid === uuid
             ).date;
@@ -195,6 +199,7 @@ export const Shooting = () => {
       )}
       <div className="text-center pagination">
         <Pagination
+          type="dropdown"
           total={
             photos.filter(filterByTime(filterStartTime, filterEndTime)).length
           }
