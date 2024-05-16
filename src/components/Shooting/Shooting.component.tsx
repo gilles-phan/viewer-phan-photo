@@ -197,7 +197,7 @@ export const Shooting = () => {
           />
         </div>
       )}
-      <div className="text-center pagination">
+      <div className="text-center select-pagination">
         <Pagination
           type="dropdown"
           total={

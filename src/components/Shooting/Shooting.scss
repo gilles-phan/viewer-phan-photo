@@ -41,15 +41,11 @@
     grid-row: 2;
     margin: auto;
   }
-  .pagination {
-    grid-row: 4;
-    margin: auto;
-  }
 
   .photos-wrapper {
     grid-row: 3;
     display: grid;
-    margin: 0.8em;
+    margin: .8em .8em 6em .8em;
     gap: 10px;
     .card {
       overflow: hidden;
@@ -63,6 +59,15 @@
     }
   }
 
+  .select-pagination {
+    // grid-row: 4;
+    margin: auto;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(200, 200, 200, 0.7);
+    box-shadow: 0 -5px 5px #ccc;
+  }
   .image-viewer-wrapper {
     z-index: 9;
   }

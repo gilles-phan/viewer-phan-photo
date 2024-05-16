@@ -25,11 +25,11 @@ export const PaginationSelect = ({
 
   return (
     <>
-      <div className="row mx-0 my-5">
+      <div className="row m-0">
         <div className="col">Page</div>
       </div>
-      <div className="row mx-0 my-5">
-        <div className="col">
+      <div className="row mx-4 mb-3">
+        <div className="col-2">
           <button
             type="button"
             className={`btn btn-light${currentPage <= 20 ? " disabled" : ""}`}
@@ -38,7 +38,7 @@ export const PaginationSelect = ({
             -20
           </button>
         </div>
-        <div className="col">
+        <div className="col-2">
           <button
             type="button"
             className={`btn btn-light${currentPage <= 1 ? " disabled" : ""}`}
@@ -47,10 +47,11 @@ export const PaginationSelect = ({
             -1
           </button>
         </div>
-        <div className="col-3">
+        <div className="col-4">
           <select
             className="form-select"
             defaultValue={"1"}
+            value={currentPage}
             onChange={(e) => changePage(+e.target.value)}
           >
             {[...Array(nbPage)]
@@ -62,7 +63,7 @@ export const PaginationSelect = ({
               ))}
           </select>
         </div>
-        <div className="col">
+        <div className="col-2">
           <button
             type="button"
             className={`btn btn-light${
@@ -73,7 +74,7 @@ export const PaginationSelect = ({
             +1
           </button>
         </div>
-        <div className="col">
+        <div className="col-2">
           <button
             type="button"
             className={`btn btn-light${

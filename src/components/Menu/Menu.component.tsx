@@ -1,7 +1,10 @@
 import { Fragment } from "react/jsx-runtime";
 import { navigation } from "./Menu.utils";
+import { useState } from "react";
 
 export const Menu = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
@@ -14,19 +17,23 @@ export const Menu = () => {
           data-bs-toggle="collapse"
           data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent"
-          aria-expanded="false"
+          aria-expanded={isOpen ? "true" : "false"}
           aria-label="Toggle navigation"
+          onClick={() => setIsOpen((isOpen) => !isOpen)}
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+        <div
+          className={`navbar-collapse${isOpen ? "" : " collapse"}`}
+          id="navbarSupportedContent"
+        >
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            {navigation.map((item, id) => (
+            {navigation.map(({ hidden, link, label }, id) => (
               <Fragment key={id}>
-                {!item.hidden && (
+                {!hidden && (
                   <li key={id} className="nav-item">
-                    <a className="nav-link" href={item.link}>
-                      {item.label}
+                    <a className="nav-link" href={link}>
+                      {label}
                     </a>
                   </li>
                 )}

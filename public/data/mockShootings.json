@@ -36,5 +36,19 @@
     "hidden":true,
     "imagePath": "1216_Z91_4800_SD.jpg",
     "date": "2024-05-10"
+  },
+  {
+    "uuid": "82537981-7435-4e15-8509-e494b10f6f2a",
+    "label": "Thomas",
+    "description": "Magicien",
+    "imagePath": "1755_DSC_3367_SD.jpg",
+    "date": "2024-03-31"
+  },
+  {
+    "uuid": "d39cdabe-6ed6-4898-b647-75fb43fdc2b1",
+    "label": "Trec de La Spiruline",
+    "description": "POR le matin",
+    "imagePath": "thumbnail.jpg",
+    "date": "2024-04-14"
   }
 ]
