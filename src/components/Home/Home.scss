@@ -1,0 +1,17 @@
+.home-wrapper {
+    display: grid;
+    grid-template-rows: 12em 1fr;
+  
+    h1 {
+      grid-row: 1;
+      margin: auto;
+    }
+    
+    .cards {
+      display: grid;
+      margin: 0.8em;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+  }
+  

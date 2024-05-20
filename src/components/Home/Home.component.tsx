@@ -1,5 +1,11 @@
+import "./Home.scss";
+
 export const Home = () => {
   console.log("home");
 
-  return <>Home!</>;
+  return (
+    <div className="home-wrapper">
+      <h1>Accueil</h1>
+    </div>
+  );
 };
