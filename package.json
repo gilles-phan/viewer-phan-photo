@@ -10,12 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.3",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.4",
     "multi-range-slider-react": "^2.0.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.51.4",
     "react-hot-toast": "^2.4.1",
     "react-range-slider-input": "^3.0.7",
     "react-router-dom": "^6.22.3",

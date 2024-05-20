@@ -1,0 +1,12 @@
+.login-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 12em 1fr;
+  grid-template-rows: 1fr;
+
+  h1,
+  .form-floating,
+  .submit-btn {
+    grid-column: 2;
+    margin: auto;
+  }
+}
