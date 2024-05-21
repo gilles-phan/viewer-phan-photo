@@ -183,6 +183,9 @@ export const Shooting = () => {
                   >
                     copier le nom
                   </button>
+                  <a href={`/images/${folderName}/${photo.name}.jpg`} download>
+                    Télécharger{" "}
+                  </a>
                 </p>
               </div>
             </div>
