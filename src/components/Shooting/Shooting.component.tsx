@@ -28,6 +28,7 @@ export const Shooting = () => {
   const [photos, setPhotos] = useState<FormatedPhotosProps[]>([]);
   const [folderName, setFolderName] = useState("");
   const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [filterStartTime, setFilterStartTime] = useState(0);
   const [filterEndTime, setFilterEndTime] = useState(0);
   const [idPhotoStart, setIdPhotoStart] = useState(0);
@@ -77,9 +78,9 @@ export const Shooting = () => {
           .then((datas) => {
             console.log(datas);
 
-            const date = datas.find(
+            const { date, description, label } = datas.find(
               (shooting: ShootingProps) => shooting.uuid === uuid
-            ).date;
+            );
             const year = date.substring(0, 4);
             const scriptPhp = `../images/${year}/${date}/list.php`;
 
@@ -87,7 +88,8 @@ export const Shooting = () => {
               .then((responseList) => responseList.json())
               .then((listFiles) => {
                 const parsedData = formateDatas(getSdFileName(listFiles));
-                setTitle(datas.title);
+                setTitle(label);
+                setDescription(description);
                 setFolderName(`${year}/${date}`);
                 setPhotos(parsedData);
                 setFilterStartTime(parsedData.sort(sortAsc)[0]?.time || 0);
@@ -113,6 +115,7 @@ export const Shooting = () => {
   return (
     <div className="shooting-wrapper">
       <h1>{title}</h1>
+      <h2>{description}</h2>
       <div className="filter">
         <p>
           Nombre de photos : {photos.length} , sur le créneau{" "}
