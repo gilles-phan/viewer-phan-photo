@@ -1,7 +1,7 @@
 [
   {
     "uuid": "018f23ff-b65f-79fb-a2e0-cd72eb0245ff",
-    "label": "Trec de La Spiruline",
+    "label": "Trec de Préjeurin",
     "description": "Photos livrées du trec",
     "imagePath": "1800_D85_9784-Avec accentuation-Bruit-Modifier_SD.jpg",
     "date": "2024-04-13"
@@ -17,7 +17,7 @@
     "uuid": "018f2423-d105-79d4-935b-4f2beedb9588",
     "label": "Portrait Sylvie et Didou",
     "description": "Portrait de Sylvie pour son CV",
-    "hidden":true,
+    "hidden": true,
     "imagePath": "1914_Z91_2371_SD.jpg",
     "date": "2024-04-27"
   },
@@ -25,7 +25,7 @@
     "uuid": "e8d9c8ec-c109-4aaf-8019-bed7852a107a",
     "label": "Dimanche Maëlle",
     "description": "Dimanche moto",
-    "hidden":true,
+    "hidden": true,
     "imagePath": "1713_Z91_5091_SD.jpg",
     "date": "2024-05-11"
   },
@@ -33,7 +33,7 @@
     "uuid": "0c6bb8ef-49bd-4058-9c8b-e0701a0d76e7",
     "label": "Sophie et Guillaume",
     "description": "Portrait Sophie (photo à choisir)",
-    "hidden":true,
+    "hidden": true,
     "imagePath": "1216_Z91_4800_SD.jpg",
     "date": "2024-05-10"
   },
@@ -46,9 +46,30 @@
   },
   {
     "uuid": "d39cdabe-6ed6-4898-b647-75fb43fdc2b1",
-    "label": "Trec de La Spiruline",
+    "label": "Trec de Préjeurin",
     "description": "POR le matin",
     "imagePath": "thumbnail.jpg",
     "date": "2024-04-14"
+  },
+  {
+    "uuid": "5023e445-e0b9-423a-8e11-9e7de499f4ad",
+    "label": "Ride and fun (jour 1)",
+    "description": "Premier jour",
+    "imagePath": "thumbnail.jpg",
+    "date": "2024-05-18"
+  },
+  {
+    "uuid": "4540595f-97dc-4e63-af97-9bbca2932ae4",
+    "label": "Ride and fun (jour 2)",
+    "description": "Second jour",
+    "imagePath": "thumbnail.jpg",
+    "date": "2024-05-19"
+  },
+  {
+    "uuid": "eefdc838-2a7b-419c-a4d7-24df1d74cbdb",
+    "label": "Ride and fun (jour 3)",
+    "description": "Troisième jour",
+    "imagePath": "thumbnail.jpg",
+    "date": "2024-05-20"
   }
 ]
