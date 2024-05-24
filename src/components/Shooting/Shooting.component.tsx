@@ -22,6 +22,8 @@ import {
 import "./Shooting.scss";
 import { ShootingProps } from "../Shootings/Shootings.interface";
 import { Pagination } from "../Pagination/Pagination.component";
+import { mockDatas, mockListFiles } from "./Shooting.mock";
+import Icon from "../../icons/Icon.component";
 
 export const Shooting = () => {
   const { uuid } = useParams();
@@ -50,7 +52,14 @@ export const Shooting = () => {
 
   const copyText = (text: string) => {
     navigator.clipboard.writeText(text);
-    toast(`"${text}" copié !`, { icon: "👏", position: "top-right" });
+    toast("Nom du fichier copié.", { icon: "👍", position: "top-right" });
+  };
+  const addToCard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast("L'ajout au panier sera bientôt disponible...", {
+      icon: "❌",
+      position: "top-right",
+    });
   };
 
   useEffect(() => {
@@ -58,21 +67,21 @@ export const Shooting = () => {
 
     if (uuid) {
       if (!import.meta.env.PROD) {
-        // dev code
-        // TODO à refaire !
-        // const scriptPhp = `../data/${uuid}.json`;
-        // fetch(scriptPhp, { headers: getHeader() })
-        //   .then((responseList) => responseList.json())
-        //   .then((listFiles) => {
-        //     const parsedData = formateDatas(getSdFileName(listFiles));
-        //     // setTitle(datas.title);
-        //     // setFolderName(`${year}/${date}`);
-        //     setPhotos(parsedData);
-        //     setFilterStartTime(parsedData.sort(sortAsc)[0]?.time || 0);
-        //     setFilterEndTime(parsedData.sort(sortDesc)[0]?.time || 0);
-        //   });
+        // dev mode
+        const { date, description, label } = mockDatas.find(
+          (shooting: ShootingProps) => shooting.uuid === uuid
+        ) || { date: "2024-01-01", description: "mock", label: "mock" };
+        const year = date.substring(0, 4);
+
+        const parsedData = formateDatas(getSdFileName(mockListFiles));
+        setTitle(label);
+        setDescription(description);
+        setFolderName(`${year}/${date}`);
+        setPhotos(parsedData);
+        setFilterStartTime(parsedData.sort(sortAsc)[0]?.time || 0);
+        setFilterEndTime(parsedData.sort(sortDesc)[0]?.time || 0);
       } else {
-        // production code
+        // production mode
         fetch("../data/mockShootings.json", { headers: getHeader() })
           .then((response) => response.json())
           .then((datas) => {
@@ -114,10 +123,10 @@ export const Shooting = () => {
   }, [filterStartTime, filterEndTime, idPhotoStart, idPhotoEnd, photos]);
   return (
     <div className="shooting-wrapper">
-      <h1>{title}</h1>
-      <h2>{description}</h2>
+      <h1 className="display-1">{title}</h1>
+      <h2 className="display-6">{description}</h2>
       <div className="filter">
-        <p>
+        <p className="text-body-secondary">
           Nombre de photos : {photos.length} , sur le créneau{" "}
           {numberToTime(filterStartTime)} - {numberToTime(filterEndTime)}
           {/* Nombre de photo affichées{" "}
@@ -175,16 +184,28 @@ export const Shooting = () => {
               />
               <div className="card-body">
                 <p className="card-text text-center">
-                  Photo : {photo.name.slice(0, -3)} (
-                  {numberToTime(+photo.name.substring(0, 4))})
+                  {numberToTime(+photo.name.substring(0, 4))} :{" "}
+                  {photo.name.slice(5, -3)}
+                </p>
+                <p className="text-center">
                   <button
-                    className="btn btn-success"
+                    className="btn btn-success bg-light"
+                    onClick={() => addToCard(photo.name.slice(0, -3))}
+                  >
+                    <Icon icon="card-shoping" size={1} />
+                  </button>{" "}
+                  <button
+                    className="btn btn-success bg-light"
                     onClick={() => copyText(photo.name.slice(0, -3))}
                   >
-                    copier le nom
-                  </button>
-                  <a href={`/images/${folderName}/${photo.name}.jpg`} download>
-                    Télécharger{" "}
+                    <Icon icon="copy" size={1} />
+                  </button>{" "}
+                  <a
+                    href={`/images/${folderName}/${photo.name}.jpg`}
+                    className="btn btn-success bg-light"
+                    download
+                  >
+                    <Icon icon="download" size={1} />
                   </a>
                 </p>
               </div>

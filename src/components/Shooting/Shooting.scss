@@ -30,20 +30,24 @@
 .shooting-wrapper {
   display: grid;
   // grid-template-rows: 12em 8em 8em 1fr;
-  grid-template-rows: 3em 8em 1fr;
+  grid-template-rows: 10em 2em 5em 1fr;
 
-  h1 {
+  h1.display-1 {
     grid-row: 1;
     margin: auto;
   }
-
-  .filter {
+  h2.display-6 {
     grid-row: 2;
     margin: auto;
   }
 
-  .photos-wrapper {
+  .filter {
     grid-row: 3;
+    margin: auto;
+  }
+
+  .photos-wrapper {
+    grid-row: 4;
     display: grid;
     margin: .8em .8em 6em .8em;
     gap: 10px;
@@ -60,7 +64,7 @@
   }
 
   .select-pagination {
-    // grid-row: 4;
+    // grid-row: 5;
     margin: auto;
     position: fixed;
     bottom: 0;

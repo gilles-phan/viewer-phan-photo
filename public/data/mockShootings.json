@@ -53,21 +53,21 @@
   },
   {
     "uuid": "5023e445-e0b9-423a-8e11-9e7de499f4ad",
-    "label": "Ride and fun (jour 1)",
+    "label": "Ride and fun",
     "description": "Premier jour",
     "imagePath": "thumbnail.jpg",
     "date": "2024-05-18"
   },
   {
     "uuid": "4540595f-97dc-4e63-af97-9bbca2932ae4",
-    "label": "Ride and fun (jour 2)",
+    "label": "Ride and fun",
     "description": "Second jour",
     "imagePath": "thumbnail.jpg",
     "date": "2024-05-19"
   },
   {
     "uuid": "eefdc838-2a7b-419c-a4d7-24df1d74cbdb",
-    "label": "Ride and fun (jour 3)",
+    "label": "Ride and fun",
     "description": "Troisième jour",
     "imagePath": "thumbnail.jpg",
     "date": "2024-05-20"
