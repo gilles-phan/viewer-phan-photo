@@ -5,9 +5,8 @@ export const sortByShootingDate = (s1: ShootingProps, s2: ShootingProps) =>
 
 export const getPathFromShooting = (shooting: ShootingProps) => {
   const folder = "images";
-  const year = shooting.date.substr(0, 4);
-  const { imagePath: fileName, date } = shooting;
-  return [folder, year, date, fileName].join("/");
+  const { image_path, thumbnail } = shooting;
+  return [folder, image_path,thumbnail].join("/");
 };
 
 export const formatDate = (strDate: string) => {

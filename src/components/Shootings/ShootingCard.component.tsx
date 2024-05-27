@@ -5,7 +5,7 @@ export const ShootingCard = ({ shooting }: ShootingCardProps) => {
   return (
     !shooting.hidden && (
       <div className="card">
-        {shooting.imagePath && (
+        {shooting.image_path && (
           <img
             src={getPathFromShooting(shooting)}
             className="card-img-top"

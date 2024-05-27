@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { getHeader } from "../Shooting/Shooting.utils";
 import { ShootingProps } from "./Shootings.interface";
 import "./Shootings.scss";
 import { sortByShootingDate } from "./Shootings.utils";
@@ -9,10 +8,12 @@ export const Shootings = () => {
   const [shootings, setShootings] = useState<ShootingProps[]>([]);
 
   useEffect(() => {
-    fetch("../data/mockShootings.json", { headers: getHeader() })
+    fetch(
+      "https://viewer.gils.xyz/backend/shooting/get-all.php" /*, { headers: getHeader() }*/
+    )
       .then((response) => response.json())
       .then((data) => {
-        setShootings(data);
+        setShootings(data.data);
       });
   }, []);
   return (

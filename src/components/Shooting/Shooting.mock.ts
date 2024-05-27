@@ -1,11 +1,16 @@
 export const mockDatas = [
   {
-    uuid: "018f23ff-b65f-79fb-a2e0-cd72eb0245ff",
-    label: "Trec de Préjeurin",
-    description: "Photos livrées du trec",
-    imagePath: "1800_D85_9784-Avec accentuation-Bruit-Modifier_SD.jpg",
-    date: "2024-04-13",
-  },
+    "uuid": "82537981-7435-4e15-8509-e494b10f6f2a",
+    "label": "Thomas",
+    "description": "Magicien",
+    "image_path": "2024\/2024-03-31",
+    "thumbnail": "1755_DSC_3367_SD.jpg",
+    "date": "2024-03-31",
+    "hidden": 0,
+    "tags": [],
+    "type": null,
+    "nb_photos": null
+},
 ];
 
 export const mockListFiles = [

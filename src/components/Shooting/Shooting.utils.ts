@@ -21,6 +21,7 @@ export const formateDatas = (files: Array<string>) =>
   files.map((fileName) => ({
     time: +fileName.substring(0, 4),
     name: fileName,
+    isHdExist: false // TODO calculer ici l'info
   }));
 
 export const sortAsc = (
