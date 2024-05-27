@@ -13,6 +13,7 @@
         public $label;       //
         public $description; //
         public $image_path;  // path to the zip (http://gils.xyz/share/...)
+        public $thumbnail;   // 
         public $date;        //
         public $tags;        //
         public $hidden;      // true | false
@@ -22,6 +23,18 @@
         // Db connection
         public function __construct($db) {
             $this->conn = $db;
+        }
+
+        /**
+         * TODO à déplacer dans une classe utilitaire
+         */
+        public function uuidv4() {
+            $data = random_bytes(16);
+
+            $data[6] = chr(ord($data[6]) & 0x0f | 0x40); // set version to 0100
+            $data[8] = chr(ord($data[8]) & 0x3f | 0x80); // set bits 6-7 to 10
+                
+            return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
         }
 
         /**
@@ -47,6 +60,7 @@
                         label       = :label,
                         description = :description,
                         image_path  = :image_path,
+                        thumbnail   = :thumbnail,
                         date        = :date,
                         tags        = :tags,
                         hidden      = :hidden,
@@ -59,6 +73,8 @@
             $this->label       = htmlspecialchars(strip_tags($this->label));
             $this->description = htmlspecialchars(strip_tags($this->description));
             $this->image_path  = htmlspecialchars(strip_tags($this->image_path));
+            $this->image_path  = htmlspecialchars(strip_tags($this->image_path));
+            $this->thumbnail   = htmlspecialchars(strip_tags($this->thumbnail));
             $this->date        = htmlspecialchars(strip_tags($this->date));
             $this->tags        = htmlspecialchars(strip_tags($this->tags));
             $this->hidden      = isset($this->hidden) ? htmlspecialchars(strip_tags($this->hidden)) : strip_tags("false");
@@ -70,6 +86,7 @@
             $stmt->bindParam(":label",       $this->label);
             $stmt->bindParam(":description", $this->description);
             $stmt->bindParam(":image_path",  $this->image_path);
+            $stmt->bindParam(":thumbnail",   $this->thumbnail);
             $stmt->bindParam(":date",        $this->date);
             $stmt->bindParam(":tags",        $this->tags);
             $stmt->bindParam(":hidden",      $this->hidden);
