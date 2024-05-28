@@ -26,7 +26,7 @@ const router = createBrowserRouter([
     element: <Shootings />,
   },
   {
-    path: "/shooting/:uuid",
+    path: "/shootings/:uuid",
     element: <Shooting />,
   },
 ]);

@@ -1,6 +1,7 @@
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { ShootingCardProps } from "./Shootings.interface";
 import { formatDate, getPathFromShooting } from "./Shootings.utils";
+import Icon from "../../icons/Icon.component";
 
 export const ShootingCard = ({ shooting }: ShootingCardProps) => {
   const [searchParams] = useSearchParams();
@@ -26,9 +27,9 @@ export const ShootingCard = ({ shooting }: ShootingCardProps) => {
             <p className="card-text">{shooting.description}</p>
           )}
           <div className="text-end">
-            <a href={`shooting/${shooting.uuid}`} className="btn btn-primary">
-              Accès
-            </a>
+            <Link className="btn btn-outline-primary" to={`${shooting.uuid}`}>
+              <Icon icon="arrow-right" size={1} />
+            </Link>
           </div>
         </div>
       </div>
