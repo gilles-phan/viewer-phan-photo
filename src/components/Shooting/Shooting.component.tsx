@@ -16,7 +16,7 @@ import {
   filterByTime,
   sortByTime,
   getThumbnailPathFromSd,
-  getSdFileName,
+  getFileName,
   IS_SLIDER_DISPLAYED,
 } from "./Shooting.utils";
 import "./Shooting.scss";
@@ -65,47 +65,78 @@ export const Shooting = () => {
     // call
 
     if (uuid) {
-      // if (!import.meta.env.PROD) {
-      // dev mode
-      // const { date, description, label } = mockDatas.find(
-      //   (shooting: ShootingProps) => shooting.uuid === uuid
-      // ) || { date: "2024-01-01", description: "mock", label: "mock" };
-      // const year = date.substring(0, 4);
-      // const parsedData = formateDatas(getSdFileName(mockListFiles));
-      // setTitle(label);
-      // setDescription(description);
-      // setFolderName(`${year}/${date}`);
-      // setPhotos(parsedData);
-      // setFilterStartTime(parsedData.sort(sortAsc)[0]?.time || 0);
-      // setFilterEndTime(parsedData.sort(sortDesc)[0]?.time || 0);
-      // } else {
-      // production mode
-      fetch(
-        "https://viewer.gils.xyz/backend/shooting/get-all.php" /*, { headers: getHeader() }*/
-      )
-        .then((response) => response.json())
-        .then((datas) => {
-          // TODO utiliser un getByUuid plutôt qu'un getAll
-          console.log(datas);
+      if (!import.meta.env.PROD) {
+        // dev mode
+        fetch(
+          "https://viewer.gils.xyz/backend/shooting/get-all.php" /*, { headers: getHeader() }*/
+        )
+          .then((response) => response.json())
+          .then((datas) => {
+            // TODO utiliser un getByUuid plutôt qu'un getAll
+            console.log(datas);
 
-          const { description, label, image_path } = datas.data.find(
-            (shooting: ShootingProps) => shooting.uuid === uuid
-          );
-          const scriptPhp = `../images/${image_path}/list.php`;
+            const { description, label, image_path } = datas.data.find(
+              (shooting: ShootingProps) => shooting.uuid === uuid
+            );
+            const listFiles = [
+              "0835_Z91_8121-Modifier_HD.jpg",
+              "0835_Z91_8096-Modifier_HD.jpg",
+              "0837_Z91_8154-Modifier_HD.jpg",
+              "0835_Z91_8096-Modifier_thumbnail.jpg",
+              "0835_Z91_8121-Modifier_thumbnail.jpg",
+              "0837_Z91_8154-Modifier_thumbnail.jpg",
+              "0835_Z91_8096-Modifier_SD.jpg",
+              "0835_Z91_8121-Modifier_SD.jpg",
+              "0837_Z91_8154-Modifier_SD.jpg",
+              "list.php",
+            ];
+            const parsedData = formateDatas(getFileName(listFiles));
+            setTitle(label);
+            setDescription(description);
+            setFolderName(`${image_path}`);
+            setPhotos(parsedData);
+            setFilterStartTime(parsedData.sort(sortAsc)[0]?.time || 0);
+            setFilterEndTime(parsedData.sort(sortDesc)[0]?.time || 0);
+          });
+        // const { date, description, label } = mockDatas.find(
+        //   (shooting: ShootingProps) => shooting.uuid === uuid
+        // ) || { date: "2024-01-01", description: "mock", label: "mock" };
+        // const year = date.substring(0, 4);
+        // const parsedData = formateDatas(getSdFileName(mockListFiles));
+        // setTitle(label);
+        // setDescription(description);
+        // setFolderName(`${year}/${date}`);
+        // setPhotos(parsedData);
+        // setFilterStartTime(parsedData.sort(sortAsc)[0]?.time || 0);
+        // setFilterEndTime(parsedData.sort(sortDesc)[0]?.time || 0);
+      } else {
+        // production mode
+        fetch(
+          "https://viewer.gils.xyz/backend/shooting/get-all.php" /*, { headers: getHeader() }*/
+        )
+          .then((response) => response.json())
+          .then((datas) => {
+            // TODO utiliser un getByUuid plutôt qu'un getAll
+            console.log(datas);
 
-          fetch(scriptPhp, { headers: getHeader() })
-            .then((responseList) => responseList.json())
-            .then((listFiles) => {
-              const parsedData = formateDatas(getSdFileName(listFiles));
-              setTitle(label);
-              setDescription(description);
-              setFolderName(`${image_path}`);
-              setPhotos(parsedData);
-              setFilterStartTime(parsedData.sort(sortAsc)[0]?.time || 0);
-              setFilterEndTime(parsedData.sort(sortDesc)[0]?.time || 0);
-            });
-        });
-      // }
+            const { description, label, image_path } = datas.data.find(
+              (shooting: ShootingProps) => shooting.uuid === uuid
+            );
+            const scriptPhp = `../images/${image_path}/list.php`;
+
+            fetch(scriptPhp, { headers: getHeader() })
+              .then((responseList) => responseList.json())
+              .then((listFiles) => {
+                const parsedData = formateDatas(getFileName(listFiles));
+                setTitle(label);
+                setDescription(description);
+                setFolderName(`${image_path}`);
+                setPhotos(parsedData);
+                setFilterStartTime(parsedData.sort(sortAsc)[0]?.time || 0);
+                setFilterEndTime(parsedData.sort(sortDesc)[0]?.time || 0);
+              });
+          });
+      }
     }
   }, [uuid]);
 
@@ -208,6 +239,7 @@ export const Shooting = () => {
                     <Icon icon="download" size={1} />
                   </a>
                   {photo.isHdExist && (
+                    // TODO remplacer les a par des link
                     <a
                       href={`/images/${folderName}/${photo.name.replace(
                         "_SD",

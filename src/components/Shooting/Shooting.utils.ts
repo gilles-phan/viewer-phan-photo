@@ -1,6 +1,5 @@
 import { FormatedPhotosProps } from "./Shooting.interface";
 
-
 export const IS_SLIDER_DISPLAYED = false;
 
 /**
@@ -11,18 +10,20 @@ export const IS_SLIDER_DISPLAYED = false;
  */
 export const getHeader = () => ({
   "Content-Type": "application/json",
-  "Accept": "application/json",
+  Accept: "application/json",
 });
 
 export const numberToTime = (n: number) =>
   `${Math.floor(n / 100)}h${n % 100 < 10 ? "0" : ""}${n % 100}`;
 
 export const formateDatas = (files: Array<string>) =>
-  files.map((fileName) => ({
-    time: +fileName.substring(0, 4),
-    name: fileName,
-    isHdExist: false // TODO calculer ici l'info
-  }));
+  files
+    .map((fileName) => ({
+      time: +fileName.substring(0, 4),
+      name: fileName,
+      isHdExist: files.includes(fileName.replace("_SD", "_HD")),
+    }))
+    .filter(removeHD);
 
 export const sortAsc = (
   photo1: FormatedPhotosProps,
@@ -46,10 +47,11 @@ export const sortByTime = (
 export const getThumbnailPathFromSd = (fileNameSd: string) =>
   fileNameSd.replace("_SD", "_thumbnail");
 
-const filterSd = (fileName: string) => fileName.includes("_SD");
+const filterSdHd = (fileName: string) =>
+  fileName.includes("_SD") || fileName.includes("_HD");
 const removeExtensionJpg = (fileName: string) => fileName.replace(".jpg", "");
+const removeHD = (file: { time: number; name: string; isHdExist: boolean }) =>
+  file.name.includes("_SD");
 
-export const getSdFileName = (listFiles: Array<string>) =>
-  listFiles.filter(filterSd).map(removeExtensionJpg);
-
-  
+export const getFileName = (listFiles: Array<string>) =>
+  listFiles.filter(filterSdHd).map(removeExtensionJpg);
