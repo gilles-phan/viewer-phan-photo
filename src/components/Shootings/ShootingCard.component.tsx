@@ -1,9 +1,13 @@
+import { useSearchParams } from "react-router-dom";
 import { ShootingCardProps } from "./Shootings.interface";
 import { formatDate, getPathFromShooting } from "./Shootings.utils";
 
 export const ShootingCard = ({ shooting }: ShootingCardProps) => {
+  const [searchParams] = useSearchParams();
+  const showHidden = searchParams.get("showHidden") === "true";
+
   return (
-    !shooting.hidden && (
+    (showHidden || !shooting.hidden) && (
       <div className="card">
         {shooting.image_path && (
           <img
