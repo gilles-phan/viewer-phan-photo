@@ -42,7 +42,13 @@
          */
         public function getShootings() {
 
-            $sqlQuery = "SELECT * FROM " . $this->db_table . " ORDER BY `date`";
+            // NOTE : attention, juste en l'état ça génère des duplications, voir GROUP BY
+            // , GROUP_CONCAT(t.label SEPARATOR ', ')
+            $sqlQuery = "SELECT uuid, shootings.label, description, image_path, thumbnail, date, hidden, type_id, nb_photos, shooting_id FROM " . $this->db_table .
+                " LEFT JOIN shootings_tags st ON (st.shooting_id = shootings.id)" .
+                " LEFT JOIN tags t ON (st.tag_id = t.id)" .
+                " GROUP BY shootings.uuid" .
+                " ORDER BY `date`";
             $stmt = $this->conn->prepare($sqlQuery);
             $stmt->execute();
             return $stmt;
