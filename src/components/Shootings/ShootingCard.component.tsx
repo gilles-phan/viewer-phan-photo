@@ -36,13 +36,13 @@ export const ShootingCard = ({ shooting }: ShootingCardProps) => {
         <div className="card-footer">
           <div className="row">
             <div className="col pt-1">
-              {shooting.tags.map((tag, id) => (
+              {shooting.tags?.map((tag, id) => (
                 <Fragment key={id}>
                   <span className="badge text-bg-secondary">{tag}</span>{" "}
                 </Fragment>
               ))}
             </div>
-            <div className="col text-end">
+            <div className="col text-end ">
               <Link className="btn btn-outline-primary" to={`${shooting.uuid}`}>
                 <Icon icon="arrow-right" size={1} />
               </Link>

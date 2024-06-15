@@ -6,6 +6,19 @@ import { ShootingCard } from "./ShootingCard.component";
 
 export const Shootings = () => {
   const [shootings, setShootings] = useState<ShootingProps[]>([]);
+  const [filter, setFilter] = useState("");
+
+  const search = (e: React.FormEvent<HTMLInputElement>) => {
+    const searchValue = e.currentTarget.value.toLowerCase();
+    setFilter(searchValue);
+  };
+
+  const clearSearch = () => setFilter("");
+
+  const filterBySearch = (shooting: ShootingProps) =>
+    shooting.date.toLowerCase().includes(filter) ||
+    shooting.description.toLowerCase().includes(filter) ||
+    shooting.label.toLowerCase().includes(filter);
 
   useEffect(() => {
     fetch(
@@ -16,13 +29,38 @@ export const Shootings = () => {
         setShootings(data.data);
       });
   }, []);
+
   return (
     <div className="shootings-wrapper">
       <h1>Shootings</h1>
+
+      <div className="search-bar">
+        <div className="input-group mb-3">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Rechercher"
+            aria-label="Rechercher"
+            value={filter}
+            onChange={search}
+          />
+          <button
+            className="btn btn-outline-secondary"
+            type="button"
+            onClick={clearSearch}
+          >
+            X
+          </button>
+        </div>
+      </div>
+
       <div className="cards">
-        {shootings.sort(sortByShootingDate).map((shooting, id) => (
-          <ShootingCard key={id} shooting={shooting} />
-        ))}
+        {shootings
+          .filter(filterBySearch)
+          .sort(sortByShootingDate)
+          .map((shooting, id) => (
+            <ShootingCard key={id} shooting={shooting} />
+          ))}
       </div>
     </div>
   );
