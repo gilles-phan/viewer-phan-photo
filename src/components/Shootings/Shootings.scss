@@ -10,7 +10,46 @@
   .cards {
     display: grid;
     margin: 0.8em;
-    grid-template-columns: repeat(3, 1fr);
     gap: 10px;
+  }
+  
+}
+
+@media all and (min-width: 1281px) {
+  .shootings-wrapper {
+    .cards{
+      grid-template-columns: repeat(6, 1fr);
+    }
+  }
+}
+@media all and (min-width: 1024px) and (max-width: 1280px) {
+  .shootings-wrapper {
+    .cards{
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+}
+
+@media all and (min-width: 768px) and (max-width: 1024px) {
+  .shootings-wrapper {
+    .cards{
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}
+
+@media all and (min-width: 480px) and (max-width: 768px) {
+  .shootings-wrapper {
+    .cards{
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}
+
+@media all and (max-width: 480px) {
+  .shootings-wrapper {
+    .cards{
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 }

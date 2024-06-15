@@ -45,7 +45,7 @@
                 "thumbnail"   => $thumbnail,
                 "date"        => $date,
                 "hidden"      => $hidden,
-                "tags"        => [],
+                "tags"        => json_decode($tags),
                 "type"        => $type,
                 "nb_photos"   => $nb_photos
             );

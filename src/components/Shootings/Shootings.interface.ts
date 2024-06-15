@@ -6,10 +6,10 @@ export interface ShootingProps {
   thumbnail: string;
   date: string;
   hidden?: number;
-  tags: number | null;
-  type: number | null;
-  nb_photos: number |null;
+  tags: Array<string>;
+  //type: number | null;
+  nb_photos: number | null;
 }
 export interface ShootingCardProps {
-  shooting: ShootingProps
+  shooting: ShootingProps;
 }
