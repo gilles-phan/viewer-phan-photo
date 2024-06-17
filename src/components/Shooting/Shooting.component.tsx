@@ -18,6 +18,7 @@ import {
   getThumbnailPathFromSd,
   getFileName,
   IS_SLIDER_DISPLAYED,
+  IS_BUY_BUTTON_DISPLAYED,
 } from "./Shooting.utils";
 import "./Shooting.scss";
 import { ShootingProps } from "../Shootings/Shootings.interface";
@@ -160,20 +161,7 @@ export const Shooting = () => {
         <p className="text-body-secondary">
           Nombre de photos : {photos.length} , sur le créneau{" "}
           {numberToTime(filterStartTime)} - {numberToTime(filterEndTime)}
-          {/* Nombre de photo affichées{" "}
-          {photos.filter(filterByTime(filterStartTime, filterEndTime)).length}{" "}
-          (sur un total de {photos.length}), sur le créneau{" "}
-          {numberToTime(filterStartTime)} - {numberToTime(filterEndTime)} */}
         </p>
-
-        {/* <RangeSlider
-        min={
-          photos.sort((photo1, photo2) => photo1.time - photo2.time)[0]?.time
-        }
-        max={
-          photos.sort((photo1, photo2) => photo2.time - photo1.time)[0]?.time
-        }
-      /> */}
 
         {IS_SLIDER_DISPLAYED && (
           <div className="row">
@@ -219,12 +207,16 @@ export const Shooting = () => {
                   {photo.name.slice(5, -3)}
                 </p>
                 <p className="text-center">
-                  <button
-                    className="btn btn-success bg-light"
-                    onClick={() => addToCard(photo.name.slice(0, -3))}
-                  >
-                    <Icon icon="card-shoping" size={1} />
-                  </button>{" "}
+                  {IS_BUY_BUTTON_DISPLAYED && (
+                    <>
+                      <button
+                        className="btn btn-success bg-light"
+                        onClick={() => addToCard(photo.name.slice(0, -3))}
+                      >
+                        <Icon icon="card-shoping" size={1} />
+                      </button>{" "}
+                    </>
+                  )}
                   <button
                     className="btn btn-success bg-light"
                     onClick={() => copyText(photo.name.slice(0, -3))}

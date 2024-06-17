@@ -1,6 +1,8 @@
 import { FormatedPhotosProps } from "./Shooting.interface";
 
 export const IS_SLIDER_DISPLAYED = false;
+export const IS_BUY_BUTTON_DISPLAYED = false;
+
 
 /**
  * The header to request json files.
