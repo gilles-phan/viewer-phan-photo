@@ -1,7 +1,7 @@
 export interface FormatedPhotosProps {
   time: number;
   name: string;
-  isHdExist: boolean
+  isHdExist: boolean;
 }
 export interface PhotosProps {
   data: string[];
