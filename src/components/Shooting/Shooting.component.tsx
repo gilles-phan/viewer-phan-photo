@@ -65,6 +65,11 @@ export const Shooting = () => {
     toast("Nom du fichier copié.", { icon: "👍", position: "top-right" });
   };
 
+  /**
+   * Add image to card.
+   * TODO: should be moved into the store
+   * @param text
+   */
   const addToCard = (text: string) => {
     navigator.clipboard.writeText(text);
     toast("L'ajout au panier sera bientôt disponible...", {
@@ -226,8 +231,10 @@ export const Shooting = () => {
                 onClick={() => openImageViewer(id)}
               />
               <div className="card-body">
-                <p className="card-text text-center">
-                  {numberToTime(+photo.name.substring(0, 4))} :{" "}
+                <p className="card-time">
+                  {numberToTime(+photo.name.substring(0, 4))}
+                </p>
+                <p className="card-text text-center mt-3">
                   {photo.name.slice(5, -3)}
                 </p>
                 <p className="text-center">
