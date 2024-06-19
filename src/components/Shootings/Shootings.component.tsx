@@ -58,6 +58,7 @@ export const Shootings = () => {
         {shootings
           .filter(filterBySearch)
           .sort(sortByShootingDate)
+          .reverse()
           .map((shooting, id) => (
             <ShootingCard key={id} shooting={shooting} />
           ))}

@@ -3,7 +3,7 @@ export const mockDatas = [
     "uuid": "82537981-7435-4e15-8509-e494b10f6f2a",
     "label": "Thomas",
     "description": "Magicien",
-    "image_path": "2024\/2024-03-31",
+    "image_path": "2024/2024-03-31",
     "thumbnail": "1755_DSC_3367_SD.jpg",
     "date": "2024-03-31",
     "hidden": 0,

@@ -3,7 +3,6 @@ import { FormatedPhotosProps } from "./Shooting.interface";
 export const IS_SLIDER_DISPLAYED = false;
 export const IS_BUY_BUTTON_DISPLAYED = false;
 
-
 /**
  * The header to request json files.
  * To be moved into a generic utils file ?
@@ -40,6 +39,9 @@ export const sortDesc = (
 export const filterByTime =
   (start: number, end: number) => (photo: FormatedPhotosProps) =>
     photo.time >= start && photo.time <= end;
+
+export const filterByName = (text: string) => (photo: FormatedPhotosProps) =>
+  photo.name.toLowerCase().includes(text);
 
 export const sortByTime = (
   photo1: FormatedPhotosProps,

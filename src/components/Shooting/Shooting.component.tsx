@@ -19,11 +19,13 @@ import {
   getFileName,
   IS_SLIDER_DISPLAYED,
   IS_BUY_BUTTON_DISPLAYED,
+  filterByName,
 } from "./Shooting.utils";
 import "./Shooting.scss";
 import { ShootingProps } from "../Shootings/Shootings.interface";
 import { Pagination } from "../Pagination/Pagination.component";
 import Icon from "../../icons/Icon.component";
+import { mockListFiles } from "./Shooting.mock";
 
 export const Shooting = () => {
   const { uuid } = useParams();
@@ -35,6 +37,7 @@ export const Shooting = () => {
   const [filterEndTime, setFilterEndTime] = useState(0);
   const [idPhotoStart, setIdPhotoStart] = useState(0);
   const [idPhotoEnd, setIdPhotoEnd] = useState(DEFAULT_NB_ELEM_PER_PAGE);
+  const [filter, setFilter] = useState("");
 
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
@@ -45,6 +48,13 @@ export const Shooting = () => {
     setIsViewerOpen(true);
   }, []);
 
+  const search = (e: React.FormEvent<HTMLInputElement>) => {
+    const searchValue = e.currentTarget.value.toLowerCase();
+    setFilter(searchValue);
+  };
+
+  const clearSearch = () => setFilter("");
+
   const closeImageViewer = () => {
     setCurrentImage(0);
     setIsViewerOpen(false);
@@ -54,6 +64,7 @@ export const Shooting = () => {
     navigator.clipboard.writeText(text);
     toast("Nom du fichier copié.", { icon: "👍", position: "top-right" });
   };
+
   const addToCard = (text: string) => {
     navigator.clipboard.writeText(text);
     toast("L'ajout au panier sera bientôt disponible...", {
@@ -63,8 +74,6 @@ export const Shooting = () => {
   };
 
   useEffect(() => {
-    // call
-
     if (uuid) {
       if (!import.meta.env.PROD) {
         // dev mode
@@ -79,19 +88,8 @@ export const Shooting = () => {
             const { description, label, image_path } = datas.data.find(
               (shooting: ShootingProps) => shooting.uuid === uuid
             );
-            const listFiles = [
-              "0835_Z91_8121-Modifier_HD.jpg",
-              "0835_Z91_8096-Modifier_HD.jpg",
-              "0837_Z91_8154-Modifier_HD.jpg",
-              "0835_Z91_8096-Modifier_thumbnail.jpg",
-              "0835_Z91_8121-Modifier_thumbnail.jpg",
-              "0837_Z91_8154-Modifier_thumbnail.jpg",
-              "0835_Z91_8096-Modifier_SD.jpg",
-              "0835_Z91_8121-Modifier_SD.jpg",
-              "0837_Z91_8154-Modifier_SD.jpg",
-              "list.php",
-            ];
-            const parsedData = formateDatas(getFileName(listFiles));
+
+            const parsedData = formateDatas(getFileName(mockListFiles));
             setTitle(label);
             setDescription(description);
             setFolderName(`${image_path}`);
@@ -118,8 +116,6 @@ export const Shooting = () => {
           .then((response) => response.json())
           .then((datas) => {
             // TODO utiliser un getByUuid plutôt qu'un getAll
-            console.log(datas);
-
             const { description, label, image_path } = datas.data.find(
               (shooting: ShootingProps) => shooting.uuid === uuid
             );
@@ -144,6 +140,7 @@ export const Shooting = () => {
   useEffect(() => {
     const img: Array<string> = photos
       .sort(sortByTime)
+      .filter(filterByName(filter))
       .filter(filterByTime(filterStartTime, filterEndTime))
       .filter((_, id) => id >= idPhotoStart && id < idPhotoEnd)
       .map(
@@ -152,15 +149,41 @@ export const Shooting = () => {
       );
 
     setImages(img);
-  }, [filterStartTime, filterEndTime, idPhotoStart, idPhotoEnd, photos]);
+  }, [
+    filter,
+    filterStartTime,
+    filterEndTime,
+    idPhotoStart,
+    idPhotoEnd,
+    photos,
+  ]);
   return (
     <div className="shooting-wrapper">
       <h1 className="display-1">{title}</h1>
       <h2 className="display-6">{description}</h2>
       <div className="filter">
         <p className="text-body-secondary">
-          Nombre de photos : {photos.length} , sur le créneau{" "}
+          {photos.length} photo{photos.length > 1 && "s"}, sur le créneau{" "}
           {numberToTime(filterStartTime)} - {numberToTime(filterEndTime)}
+        </p>
+        <p>
+          <div className="input-group mb-3">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Rechercher par nom..."
+              aria-label="Rechercher par nom..."
+              value={filter}
+              onChange={search}
+            />
+            <button
+              className="btn btn-outline-secondary"
+              type="button"
+              onClick={clearSearch}
+            >
+              X
+            </button>
+          </div>
         </p>
 
         {IS_SLIDER_DISPLAYED && (
@@ -190,6 +213,7 @@ export const Shooting = () => {
       <div className="photos-wrapper">
         {photos
           .sort(sortByTime)
+          .filter(filterByName(filter))
           .filter(filterByTime(filterStartTime, filterEndTime))
           .filter((_, id) => id >= idPhotoStart && id < idPhotoEnd)
           .map((photo, id) => (
@@ -229,7 +253,7 @@ export const Shooting = () => {
                     download
                   >
                     <Icon icon="download" size={1} />
-                  </a>
+                  </a>{" "}
                   {photo.isHdExist && (
                     // TODO remplacer les a par des link
                     <a
@@ -264,7 +288,9 @@ export const Shooting = () => {
         <Pagination
           type="dropdown"
           total={
-            photos.filter(filterByTime(filterStartTime, filterEndTime)).length
+            photos
+              .filter(filterByName(filter))
+              .filter(filterByTime(filterStartTime, filterEndTime)).length
           }
           onPageChange={(start: number, end: number) => {
             setIdPhotoStart(start);
