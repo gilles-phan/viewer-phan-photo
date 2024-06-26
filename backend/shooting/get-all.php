@@ -54,11 +54,15 @@
         $result = new STDClass();
         $result -> data = $shootings;
 
+        $itemPerPage = isset($_GET['itemPerPage']) ? max(min($_GET['itemPerPage'], 100), 1) : 20;
+        $nbPages = ceil($itemCount/$itemPerPage);
+        $page = isset($_GET['page']) ? max(min($_GET['page'], $nbPages), 1) : 1;
+
         $pages = new STDClass();
         $pages -> nbResults = $itemCount;
-        $pages -> page = 1;
-        $pages -> nbPages = ceil($itemCount/20);
-        $pages -> itemPerPage = 20;
+        $pages -> page = $page;
+        $pages -> nbPages = $nbPages;
+        $pages -> itemPerPage = $itemPerPage;
 
         $result -> pages = $pages;
 
