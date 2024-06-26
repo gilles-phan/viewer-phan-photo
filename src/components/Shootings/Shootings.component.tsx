@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ShootingProps } from "./Shootings.interface";
 import "./Shootings.scss";
 import { sortByShootingDate } from "./Shootings.utils";
-import { ShootingCard } from "./ShootingCard.component";
+import { EventCard } from "./EventCard.component";
 
 export const Shootings = () => {
   const [shootings, setShootings] = useState<ShootingProps[]>([]);
@@ -60,7 +60,7 @@ export const Shootings = () => {
           .sort(sortByShootingDate)
           .reverse()
           .map((shooting, id) => (
-            <ShootingCard key={id} shooting={shooting} />
+            <EventCard key={id} shooting={shooting} />
           ))}
       </div>
     </div>

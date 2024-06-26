@@ -4,7 +4,7 @@ import { formatDate, getPathFromShooting } from "./Shootings.utils";
 import Icon from "../../icons/Icon.component";
 import { Fragment } from "react/jsx-runtime";
 
-export const ShootingCard = ({ shooting }: ShootingCardProps) => {
+export const EventCard = ({ shooting }: ShootingCardProps) => {
   const [searchParams] = useSearchParams();
   const showHidden = searchParams.get("showHidden") === "true";
 
