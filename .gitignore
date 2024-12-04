@@ -6,7 +6,7 @@
 /dist
 
 #images
-/public/images
+/public
 
 # misc
 .DS_Store

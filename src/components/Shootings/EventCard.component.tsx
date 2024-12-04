@@ -3,18 +3,24 @@ import { ShootingCardProps } from "./Shootings.interface";
 import { formatDate, getPathFromShooting } from "./Shootings.utils";
 import Icon from "../../icons/Icon.component";
 import { Fragment } from "react/jsx-runtime";
+import { useState } from "react";
 
 export const EventCard = ({ shooting }: ShootingCardProps) => {
+  const [thumbnail, setThumbnail] = useState(getPathFromShooting(shooting));
+
   const [searchParams] = useSearchParams();
   const showHidden = searchParams.get("showHidden") === "true";
+
+  const setErrorImg = () => setThumbnail("images/404.jpg");
 
   return (
     (showHidden || !shooting.hidden) && (
       <div className="card">
         {shooting.image_path && (
           <img
-            src={getPathFromShooting(shooting)}
+            src={thumbnail}
             className="card-img-top"
+            onError={setErrorImg}
             alt="..."
           />
         )}
