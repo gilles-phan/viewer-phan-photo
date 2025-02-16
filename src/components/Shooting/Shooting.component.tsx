@@ -154,14 +154,7 @@ export const Shooting = () => {
       );
 
     setImages(img);
-  }, [
-    filter,
-    filterStartTime,
-    filterEndTime,
-    idPhotoStart,
-    idPhotoEnd,
-    photos,
-  ]);
+  }, [filter, filterStartTime, filterEndTime, idPhotoStart, idPhotoEnd, photos, folderName]);
   return (
     <div className="shooting-wrapper">
       <h1 className="display-1">{title}</h1>

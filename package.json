@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
+    "antd": "^5.24.0",
     "bootstrap": "^5.3.3",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.4",

@@ -7,6 +7,8 @@ import { Menu } from "./components/Menu/Menu.component.tsx";
 import { Shooting } from "./components/Shooting/Shooting.component.tsx";
 import { Shootings } from "./components/Shootings/Shootings.component.tsx";
 import { Login } from "./components/Login/Login.component.tsx";
+import ShootingsV2 from "./components/ShootingsV2/ShootingsV2.component.tsx";
+import ShootingV2 from "./components/ShootingsV2/ShootingV2.component.tsx";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +30,14 @@ const router = createBrowserRouter([
   {
     path: "/shootings/:uuid",
     element: <Shooting />,
+  },
+  {
+    path: "/shootings-v2",
+    element: <ShootingsV2 />,
+  },
+  {
+    path: "/shootings-v2/:uuid",
+    element: <ShootingV2 />,
   },
 ]);
 
