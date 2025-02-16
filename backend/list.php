@@ -1,4 +1,7 @@
 <?php
+    /**
+     * Usage : https://viewer.gils.xyz/images/list.php?path=2025/2025-02-09
+     */
     header('Content-Type: application/json');
 
     // Récupère le chemin passé en paramètre (ou "./" par défaut)
