@@ -44,6 +44,8 @@ const ShootingV2 = () => {
   const [isViewerOpen, setIsViewerOpen] = useState(false);
   const [images, setImages] = useState<Array<string>>([]); // current displayed images
 
+  
+
   const openImageViewer = useCallback((index: number) => {
     setCurrentImage(index);
     setIsViewerOpen(true);
@@ -213,7 +215,7 @@ const ShootingV2 = () => {
                   >
                     <Meta
                       title={photo.name.slice(5, -3)}
-                      description={numberToTime(+photo.name.substring(0, 4))}
+                      description={numberToTime(+photo.name.substring(0, 4)) + " id: " + id}
                       style={{ marginBottom: 12 }}
                     />
                     {IS_BUY_BUTTON_DISPLAYED && (
@@ -265,7 +267,7 @@ const ShootingV2 = () => {
                 onChange={(page, pageSize) => {
                   console.log(page, pageSize);
                   const start = (page - 1) * pageSize;
-                  const end = pageSize - 1 + page * pageSize;
+                  const end = pageSize - 1 + (page-1) * (pageSize);
                   console.log(`from ${start} to ${end}`);
 
                   setIdPhotoStart(start);
@@ -288,20 +290,6 @@ const ShootingV2 = () => {
             />
           </div>
         )}
-        <div className="text-center select-pagination">
-          {/* <Pagination
-            type="dropdown"
-            total={
-              photos
-                .filter(filterByName(filter))
-                .filter(filterByTime(filterStartTime, filterEndTime)).length
-            }
-            onPageChange={(start: number, end: number) => {
-              setIdPhotoStart(start);
-              setIdPhotoEnd(end);
-            }}
-          /> */}
-        </div>
         <Toaster />
       </div>
     </>
