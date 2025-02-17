@@ -16,13 +16,16 @@ import {
   getPathFromShooting,
   sortByShootingDate,
 } from "../Shootings/Shootings.utils";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 const { Meta } = Card;
 const { Title } = Typography;
 
 const ShootingsV2 = () => {
   const [shootings, setShootings] = useState<ShootingProps[]>([]);
+
   const [filter, setFilter] = useState("");
+  const [searchParams] = useSearchParams();
+  const showHidden = searchParams.get("showHidden") === "true";
 
   const navigate = useNavigate();
 
@@ -31,6 +34,9 @@ const ShootingsV2 = () => {
     setFilter(searchValue);
   };
   const clearSearch = () => setFilter("");
+
+  const filterByHidden = (showHidden: boolean) => (shooting: ShootingProps) =>
+    showHidden || !shooting.hidden;
 
   const filterBySearch = (shooting: ShootingProps) =>
     shooting.date.toLowerCase().includes(filter) ||
@@ -69,6 +75,7 @@ const ShootingsV2 = () => {
         <Col span={20} offset={2}>
           <Row gutter={8}>
             {shootings
+              .filter(filterByHidden(showHidden))
               .filter(filterBySearch)
               .sort(sortByShootingDate)
               .reverse()
