@@ -3,8 +3,6 @@ import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { DEFAULT_NB_ELEM_PER_PAGE } from "../Pagination/Pagination.utils";
 import { FormatedPhotosProps } from "../Shooting/Shooting.interface";
-// import RangeSlider from "react-range-slider-input";
-// import "react-range-slider-input/dist/style.css";
 import ImageViewer from "react-simple-image-viewer";
 import toast, { Toaster } from "react-hot-toast";
 import {
@@ -20,7 +18,6 @@ import {
   IS_BUY_BUTTON_DISPLAYED,
   filterByName,
 } from "../Shooting/Shooting.utils";
-// import "../Shooting/Shooting.scss";
 import { ShootingProps } from "../Shootings/Shootings.interface";
 import Icon from "../../icons/Icon.component";
 import { mockListFiles } from "../Shooting/Shooting.mock";
@@ -46,12 +43,14 @@ const ShootingV2 = () => {
 
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
-  const [images, setImages] = useState<Array<string>>([]); // current displayed images
 
-  const openImageViewer = useCallback((index: number) => {
-    setCurrentImage(index);
-    setIsViewerOpen(true);
-  }, []);
+  const openImageViewer = useCallback(
+    (index: number) => {
+      setCurrentImage(index + (currentPage - 1) * currentPageSize);
+      setIsViewerOpen(true);
+    },
+    [currentPage, currentPageSize]
+  );
 
   const closeImageViewer = () => {
     setCurrentImage(0);
@@ -139,27 +138,6 @@ const ShootingV2 = () => {
     }
   }, [uuid]);
 
-  useEffect(() => {
-    const img: Array<string> = photos
-      .sort(sortByTime)
-      .filter(filterByName(filter))
-      .filter(filterByTime(filterStartTime, filterEndTime))
-      .filter((_, id) => id >= idPhotoStart && id <= idPhotoEnd)
-      .map(
-        (photo: FormatedPhotosProps) =>
-          `/images/${folderName}/${photo.name}.jpg`
-      );
-
-    setImages(img);
-  }, [
-    filter,
-    filterStartTime,
-    filterEndTime,
-    idPhotoStart,
-    idPhotoEnd,
-    photos,
-    folderName,
-  ]);
   return (
     <>
       <Row>
@@ -218,9 +196,7 @@ const ShootingV2 = () => {
                   >
                     <Meta
                       title={photo.name.slice(5, -3)}
-                      description={
-                        numberToTime(+photo.name.substring(0, 4)) + " id: " + id
-                      }
+                      description={numberToTime(+photo.name.substring(0, 4))}
                       style={{ marginBottom: 12 }}
                     />
                     {IS_BUY_BUTTON_DISPLAYED && (
@@ -280,7 +256,14 @@ const ShootingV2 = () => {
         {isViewerOpen && (
           <div className="image-viewer-wrapper">
             <ImageViewer
-              src={images}
+              src={photos
+                .sort(sortByTime)
+                .filter(filterByName(filter))
+                .filter(filterByTime(filterStartTime, filterEndTime))
+                .map(
+                  (photo: FormatedPhotosProps) =>
+                    `/images/${folderName}/${photo.name}.jpg`
+                )}
               currentIndex={currentImage}
               disableScroll={false}
               closeOnClickOutside={true}
