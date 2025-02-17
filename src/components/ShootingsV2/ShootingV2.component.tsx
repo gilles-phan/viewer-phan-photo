@@ -40,7 +40,9 @@ const ShootingV2 = () => {
   const [idPhotoEnd, setIdPhotoEnd] = useState(DEFAULT_NB_ELEM_PER_PAGE - 1);
   const [filter /*, setFilter*/] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [currentPageSize, setCurrentPageSize] = useState(DEFAULT_NB_ELEM_PER_PAGE);
+  const [currentPageSize, setCurrentPageSize] = useState(
+    DEFAULT_NB_ELEM_PER_PAGE
+  );
 
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
@@ -50,13 +52,6 @@ const ShootingV2 = () => {
     setCurrentImage(index);
     setIsViewerOpen(true);
   }, []);
-
-  //   const search = (e: React.FormEvent<HTMLInputElement>) => {
-  //     const searchValue = e.currentTarget.value.toLowerCase();
-  //     setFilter(searchValue);
-  //   };
-
-  //   const clearSearch = () => setFilter("");
 
   const closeImageViewer = () => {
     setCurrentImage(0);
@@ -86,7 +81,7 @@ const ShootingV2 = () => {
     setIdPhotoStart(start);
     setIdPhotoEnd(end);
     setCurrentPage(page);
-    setCurrentPageSize(pageSize)
+    setCurrentPageSize(pageSize);
   };
 
   useEffect(() => {
@@ -115,17 +110,6 @@ const ShootingV2 = () => {
             setFilterStartTime(parsedData.sort(sortAsc)[0]?.time || 0);
             setFilterEndTime(parsedData.sort(sortDesc)[0]?.time || 0);
           });
-        // const { date, description, label } = mockDatas.find(
-        //   (shooting: ShootingProps) => shooting.uuid === uuid
-        // ) || { date: "2024-01-01", description: "mock", label: "mock" };
-        // const year = date.substring(0, 4);
-        // const parsedData = formateDatas(getSdFileName(mockListFiles));
-        // setTitle(label);
-        // setDescription(description);
-        // setFolderName(`${year}/${date}`);
-        // setPhotos(parsedData);
-        // setFilterStartTime(parsedData.sort(sortAsc)[0]?.time || 0);
-        // setFilterEndTime(parsedData.sort(sortDesc)[0]?.time || 0);
       } else {
         // production mode
         fetch(
