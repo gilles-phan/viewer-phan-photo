@@ -21,7 +21,7 @@ import {
 import { ShootingProps } from "../Shootings/Shootings.interface";
 import Icon from "../../icons/Icon.component";
 import { mockListFiles } from "../Shooting/Shooting.mock";
-import { Typography, Col, Divider, Row, Card, Pagination } from "antd";
+import { Typography, Col, Divider, Row, Card, Pagination, Tag } from "antd";
 const { Title, Text } = Typography;
 const { Meta } = Card;
 
@@ -41,19 +41,19 @@ const ShootingV2 = () => {
     DEFAULT_NB_ELEM_PER_PAGE
   );
 
-  const [currentImage, setCurrentImage] = useState(0);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
 
   const openImageViewer = useCallback(
     (index: number) => {
-      setCurrentImage(index + (currentPage - 1) * currentPageSize);
+      setCurrentImageIndex(index + (currentPage - 1) * currentPageSize);
       setIsViewerOpen(true);
     },
     [currentPage, currentPageSize]
   );
 
   const closeImageViewer = () => {
-    setCurrentImage(0);
+    setCurrentImageIndex(0);
     setIsViewerOpen(false);
   };
 
@@ -168,6 +168,7 @@ const ShootingV2 = () => {
                 align="center"
                 total={photos.length}
                 current={currentPage}
+                pageSizeOptions={[12, 24, 60, 120]}
                 pageSize={currentPageSize}
                 onChange={onPageChange}
               />
@@ -245,6 +246,7 @@ const ShootingV2 = () => {
                 align="center"
                 current={currentPage}
                 total={photos.length}
+                pageSizeOptions={[12, 24, 60, 120]}
                 pageSize={currentPageSize}
                 onChange={onPageChange}
               />
@@ -264,7 +266,7 @@ const ShootingV2 = () => {
                   (photo: FormatedPhotosProps) =>
                     `/images/${folderName}/${photo.name}.jpg`
                 )}
-              currentIndex={currentImage}
+              currentIndex={currentImageIndex}
               disableScroll={false}
               closeOnClickOutside={true}
               onClose={closeImageViewer}
