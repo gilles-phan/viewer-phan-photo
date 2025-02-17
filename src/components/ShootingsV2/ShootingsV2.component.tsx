@@ -65,7 +65,7 @@ const ShootingsV2 = () => {
       <Row>
         <Col span={20} offset={2}>
           <Space.Compact style={{ width: "100%" }}>
-            <Input addonBefore="Recherche" onChange={search}/>
+            <Input placeholder="Janvier, 2025, canin, Portrait, ..." addonBefore="Recherche" onChange={search}/>
               <Button onClick={clearSearch}>
 
                 <CloseOutlined  />
