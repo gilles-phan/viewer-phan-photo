@@ -37,14 +37,14 @@ const ShootingV2 = () => {
   const [filterStartTime, setFilterStartTime] = useState(0);
   const [filterEndTime, setFilterEndTime] = useState(0);
   const [idPhotoStart, setIdPhotoStart] = useState(0);
-  const [idPhotoEnd, setIdPhotoEnd] = useState(DEFAULT_NB_ELEM_PER_PAGE);
+  const [idPhotoEnd, setIdPhotoEnd] = useState(DEFAULT_NB_ELEM_PER_PAGE - 1);
   const [filter /*, setFilter*/] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPageSize, setCurrentPageSize] = useState(DEFAULT_NB_ELEM_PER_PAGE);
 
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
   const [images, setImages] = useState<Array<string>>([]); // current displayed images
-
-  
 
   const openImageViewer = useCallback((index: number) => {
     setCurrentImage(index);
@@ -79,6 +79,14 @@ const ShootingV2 = () => {
       icon: "❌",
       position: "top-right",
     });
+  };
+  const onPageChange = (page: number, pageSize: number) => {
+    const start = (page - 1) * pageSize;
+    const end = start + pageSize - 1;
+    setIdPhotoStart(start);
+    setIdPhotoEnd(end);
+    setCurrentPage(page);
+    setCurrentPageSize(pageSize)
   };
 
   useEffect(() => {
@@ -152,7 +160,7 @@ const ShootingV2 = () => {
       .sort(sortByTime)
       .filter(filterByName(filter))
       .filter(filterByTime(filterStartTime, filterEndTime))
-      .filter((_, id) => id >= idPhotoStart && id < idPhotoEnd)
+      .filter((_, id) => id >= idPhotoStart && id <= idPhotoEnd)
       .map(
         (photo: FormatedPhotosProps) =>
           `/images/${folderName}/${photo.name}.jpg`
@@ -192,12 +200,23 @@ const ShootingV2 = () => {
               <Divider />
             </Col>
           </Row>
+          <Row style={{ marginBottom: 24 }}>
+            <Col span={24}>
+              <Pagination
+                align="center"
+                total={photos.length}
+                current={currentPage}
+                pageSize={currentPageSize}
+                onChange={onPageChange}
+              />
+            </Col>
+          </Row>
           <Row gutter={8}>
             {photos
               .sort(sortByTime)
               .filter(filterByName(filter))
               .filter(filterByTime(filterStartTime, filterEndTime))
-              .filter((_, id) => id >= idPhotoStart && id < idPhotoEnd)
+              .filter((_, id) => id >= idPhotoStart && id <= idPhotoEnd)
               .map((photo, id) => (
                 <Col key={id} xs={24} md={12} xl={6} xxl={4}>
                   <Card
@@ -215,7 +234,9 @@ const ShootingV2 = () => {
                   >
                     <Meta
                       title={photo.name.slice(5, -3)}
-                      description={numberToTime(+photo.name.substring(0, 4)) + " id: " + id}
+                      description={
+                        numberToTime(+photo.name.substring(0, 4)) + " id: " + id
+                      }
                       style={{ marginBottom: 12 }}
                     />
                     {IS_BUY_BUTTON_DISPLAYED && (
@@ -262,17 +283,10 @@ const ShootingV2 = () => {
             <Col span={24}>
               <Pagination
                 align="center"
-                defaultCurrent={1}
+                current={currentPage}
                 total={photos.length}
-                onChange={(page, pageSize) => {
-                  console.log(page, pageSize);
-                  const start = (page - 1) * pageSize;
-                  const end = pageSize - 1 + (page-1) * (pageSize);
-                  console.log(`from ${start} to ${end}`);
-
-                  setIdPhotoStart(start);
-                  setIdPhotoEnd(end);
-                }}
+                pageSize={currentPageSize}
+                onChange={onPageChange}
               />
             </Col>
           </Row>

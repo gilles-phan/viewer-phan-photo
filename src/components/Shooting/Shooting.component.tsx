@@ -293,6 +293,8 @@ export const Shooting = () => {
               .filter(filterByTime(filterStartTime, filterEndTime)).length
           }
           onPageChange={(start: number, end: number) => {
+            console.log(`PAGE CHANGE : ${start} to ${end}`);
+            
             setIdPhotoStart(start);
             setIdPhotoEnd(end);
           }}
