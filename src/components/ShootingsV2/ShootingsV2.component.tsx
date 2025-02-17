@@ -17,6 +17,7 @@ import {
   sortByShootingDate,
 } from "../Shootings/Shootings.utils";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { CloseOutlined } from "@ant-design/icons";
 const { Meta } = Card;
 const { Title } = Typography;
 
@@ -64,10 +65,11 @@ const ShootingsV2 = () => {
       <Row>
         <Col span={20} offset={2}>
           <Space.Compact style={{ width: "100%" }}>
-            <Input onChange={search} />
-            <Button type="primary" onClick={clearSearch}>
-              reset
-            </Button>
+            <Input addonBefore="Recherche" onChange={search}/>
+              <Button onClick={clearSearch}>
+
+                <CloseOutlined  />
+              </Button>
           </Space.Compact>
         </Col>
       </Row>
