@@ -212,13 +212,17 @@ const ShootingV2 = () => {
                     )}
                     <button
                       className="btn btn-success bg-light"
-                      onClick={() => copyText(photo.name.slice(0, -3))}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        copyText(photo.name.slice(0, -3));
+                      }}
                     >
                       <Icon icon="copy" size={1} />
                     </button>{" "}
                     <a
                       href={`/images/${folderName}/${photo.name}.jpg`}
                       className="btn btn-success bg-light"
+                      onClick={(e) => e.stopPropagation()}
                       download
                     >
                       <Icon icon="download" size={1} />
@@ -231,6 +235,8 @@ const ShootingV2 = () => {
                           "_HD"
                         )}.jpg`}
                         className="btn btn-success bg-light"
+                        onClick={(e) => e.stopPropagation()}
+
                         download
                       >
                         <Icon icon="hd" size={1} />
