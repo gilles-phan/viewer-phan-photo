@@ -21,7 +21,7 @@ import {
 import { ShootingProps } from "../Shootings/Shootings.interface";
 import Icon from "../../icons/Icon.component";
 import { mockListFiles } from "../Shooting/Shooting.mock";
-import { Typography, Col, Divider, Row, Card, Pagination, Tag } from "antd";
+import { Typography, Col, Divider, Row, Card, Pagination } from "antd";
 const { Title, Text } = Typography;
 const { Meta } = Card;
 
