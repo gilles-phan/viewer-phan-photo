@@ -32,7 +32,7 @@ export const Shootings = () => {
 
   return (
     <div className="shootings-wrapper">
-      <h1>Shootings</h1>
+      <h1>Shootings (ancienne version)</h1>
 
       <div className="search-bar">
         <div className="input-group mb-3">

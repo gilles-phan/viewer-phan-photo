@@ -58,7 +58,7 @@ const ShootingsV2 = () => {
     <>
       <Row>
         <Col span={20} offset={2}>
-          <Title style={{ marginTop: 12 }}>Shootings (v2)</Title>
+          <Title style={{ marginTop: 12 }}>Shootings</Title>
           <Divider />
         </Col>
       </Row>

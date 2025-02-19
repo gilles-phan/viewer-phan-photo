@@ -24,19 +24,19 @@ const router = createBrowserRouter([
     element: <Login />,
   },
   {
-    path: "/shootings",
+    path: "/shootings-old",
     element: <Shootings />,
   },
   {
-    path: "/shootings/:uuid",
+    path: "/shootings-old/:uuid",
     element: <Shooting />,
   },
   {
-    path: "/shootings-v2",
+    path: "/shootings",
     element: <ShootingsV2 />,
   },
   {
-    path: "/shootings-v2/:uuid",
+    path: "/shootings/:uuid",
     element: <ShootingV2 />,
   },
 ]);
