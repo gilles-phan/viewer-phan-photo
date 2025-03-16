@@ -4,6 +4,10 @@ import "./Shootings.scss";
 import { sortByShootingDate } from "./Shootings.utils";
 import { EventCard } from "./EventCard.component";
 
+/**
+ * TODO: à supprimer définitivement !!
+ * @returns
+ */
 export const Shootings = () => {
   const [shootings, setShootings] = useState<ShootingProps[]>([]);
   const [filter, setFilter] = useState("");
