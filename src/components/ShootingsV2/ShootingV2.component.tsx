@@ -158,6 +158,82 @@ const ShootingV2 = () => {
                 </Text>
               </Title>
             </Col>
+            {title.includes("Champlong -") && (
+              <>
+                <Col span={24}>
+                  <Title level={2}>
+                    <Text type="secondary">
+                      Procédures pour commander des photos
+                    </Text>
+                  </Title>
+                  <ul>
+                    <li>
+                      Notez le nom des photos que vous désirez commander (
+                      <em>exemple : "D85_7856, Z91_4577, Z91_4577"</em>)
+                    </li>
+                    <li>
+                      Vous avez ensuite deux possibilités.
+                      <br />1 - Payez avec paypal :
+                      <ul>
+                        <li>
+                          Vérifiez les prix indiqués{" "}
+                          <a target="_blank" href="https://phan.photo/princing">
+                            ici
+                          </a>
+                        </li>
+                        <li>
+                          Payez votre commande sur paypal en indiquant l'adresse
+                          mail{" "}
+                          <a href="mailto:phan.gilles@gmail.com?subject=Commande%20de%20photos">
+                            phan.gilles@gmail.com
+                          </a>
+                        </li>
+                        <li>
+                          M'envoyer un mail pour m'indiquer la date de commande
+                          et la liste des photos souhaité. <br />
+                          <strong>Note :</strong> merci de me préciser si vous
+                          utilisez une adresse différente pour votre compte
+                          paypal :)
+                        </li>
+                      </ul>
+                      2 - Payez directement via mon site :
+                      <ul>
+                        <li>
+                          Payez les photos via mon site, dans la partie "Tarifs"
+                          :{" "}
+                          <a target="_blank" href="https://phan.photo/princing">
+                            https://phan.photo/princing
+                          </a>
+                        </li>
+                        <li>
+                          Sélectionner le package correspondant au nombre de
+                          photos sélectionné
+                        </li>
+                        <li>
+                          M'envoyer un mail pour m'indiquer la date de commande
+                          et la liste des photos souhaité.
+                          <br />
+                          <strong>Note 1 :</strong> Si vous souhaitez un tirage,
+                          n'oubliez pas de m'indiquer une adresse à laquelle
+                          vous envoyer les tirages.
+                          <br />
+                          <strong>Note 2 :</strong> merci d'indiquer la même
+                          adresse mail pour me contacter que celle utiliser pour
+                          la commande. Si ce n'est pas la même, veuillez me le
+                          préciser.
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                  En cas de questions, n'hésitez pas à m'envoyer un{" "}
+                  <a href="mailto:phan.gilles@gmail.com?subject=Question%20concernant%20les%20commandes%20photos">
+                    mail
+                  </a>{" "}
+                  ou à me contacter au téléphone au{" "}
+                  <a href="tel:+33682509580">06 82 50 95 80</a>
+                </Col>
+              </>
+            )}
             <Col span={24}>
               <Divider />
             </Col>
@@ -236,7 +312,6 @@ const ShootingV2 = () => {
                         )}.jpg`}
                         className="btn btn-success bg-light"
                         onClick={(e) => e.stopPropagation()}
-
                         download
                       >
                         <Icon icon="hd" size={1} />
