@@ -8,6 +8,7 @@ export const IS_BUY_BUTTON_DISPLAYED = false;
  * To be moved into a generic utils file ?
  *
  * @returns
+ * @deprecated
  */
 export const getHeader = () => ({
   "Content-Type": "application/json",
@@ -16,6 +17,8 @@ export const getHeader = () => ({
 
 export const numberToTime = (n: number) =>
   `${Math.floor(n / 100)}h${n % 100 < 10 ? "0" : ""}${n % 100}`;
+
+export const isZip = (fileName: string) => fileName.endsWith(".zip");
 
 export const formateDatas = (files: Array<string>) =>
   files
@@ -38,7 +41,7 @@ export const sortDesc = (
 
 export const filterByTime =
   (start: number, end: number) => (photo: FormatedPhotosProps) =>
-    photo.time >= start && photo.time <= end;
+    isZip(photo.name) || photo.time >= start && photo.time <= end;
 
 export const filterByName = (text: string) => (photo: FormatedPhotosProps) =>
   photo.name.toLowerCase().includes(text);
@@ -48,14 +51,20 @@ export const sortByTime = (
   photo2: FormatedPhotosProps
 ) => photo1.time - photo2.time;
 
+/**
+ *
+ * @param fileNameSd
+ * @returns
+ * @deprecated
+ */
 export const getThumbnailPathFromSd = (fileNameSd: string) =>
   fileNameSd.replace("_SD", "_thumbnail");
 
-const filterSdHd = (fileName: string) =>
-  fileName.includes("_SD") || fileName.includes("_HD");
+const filterSdHdZip = (fileName: string) =>
+  fileName.includes("_SD") || fileName.includes("_HD") || isZip(fileName);
 const removeExtensionJpg = (fileName: string) => fileName.replace(".jpg", "");
 const removeHD = (file: { time: number; name: string; isHdExist: boolean }) =>
-  file.name.includes("_SD");
+  !file.name.includes("_HD") ;
 
 export const getFileName = (listFiles: Array<string>) =>
-  listFiles.filter(filterSdHd).map(removeExtensionJpg);
+  listFiles.filter(filterSdHdZip).map(removeExtensionJpg);

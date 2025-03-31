@@ -23,7 +23,6 @@ const { Title } = Typography;
 
 const ShootingsV2 = () => {
   const [shootings, setShootings] = useState<ShootingProps[]>([]);
-
   const [filter, setFilter] = useState("");
   const [searchParams] = useSearchParams();
   const showHidden = searchParams.get("showHidden") === "true";
@@ -65,11 +64,14 @@ const ShootingsV2 = () => {
       <Row>
         <Col span={20} offset={2}>
           <Space.Compact style={{ width: "100%" }}>
-            <Input placeholder="Janvier, 2025, canin, Portrait, ..." addonBefore="Recherche" onChange={search}/>
-              <Button onClick={clearSearch}>
-
-                <CloseOutlined  />
-              </Button>
+            <Input
+              placeholder="Janvier, 2025, canin, Portrait, ..."
+              addonBefore="Recherche"
+              onChange={search}
+            />
+            <Button onClick={clearSearch}>
+              <CloseOutlined />
+            </Button>
           </Space.Compact>
         </Col>
       </Row>

@@ -1,27 +1,30 @@
 import { useCallback, useEffect, useState } from "react";
-
 import { useParams } from "react-router-dom";
 import { DEFAULT_NB_ELEM_PER_PAGE } from "../Pagination/Pagination.utils";
 import { FormatedPhotosProps } from "../Shooting/Shooting.interface";
 import ImageViewer from "react-simple-image-viewer";
 import toast, { Toaster } from "react-hot-toast";
 import {
-  getHeader,
   numberToTime,
   formateDatas,
   sortAsc,
   sortDesc,
   filterByTime,
   sortByTime,
-  getThumbnailPathFromSd,
   getFileName,
   IS_BUY_BUTTON_DISPLAYED,
   filterByName,
+  isZip,
 } from "../Shooting/Shooting.utils";
 import { ShootingProps } from "../Shootings/Shootings.interface";
 import Icon from "../../icons/Icon.component";
-import { mockListFiles } from "../Shooting/Shooting.mock";
 import { Typography, Col, Divider, Row, Card, Pagination } from "antd";
+import {
+  getThumbnailPath,
+  getPathListPhp,
+  getZip,
+  URL,
+} from "../Shootings/Shootings.utils";
 const { Title, Text } = Typography;
 const { Meta } = Card;
 
@@ -85,56 +88,30 @@ const ShootingV2 = () => {
 
   useEffect(() => {
     if (uuid) {
-      if (!import.meta.env.PROD) {
-        // dev mode
-        fetch(
-          "https://viewer.gils.xyz/backend/shooting/get-all.php" /*, { headers: getHeader() }*/
-        )
-          .then((response) => response.json())
-          .then((datas) => {
-            // TODO utiliser un getByUuid plutôt qu'un getAll
-            console.log(datas);
+      fetch(
+        "https://viewer.gils.xyz/backend/shooting/get-all.php" /*, { headers: getHeader() }*/
+      )
+        .then((response) => response.json())
+        .then((datas) => {
+          // TODO utiliser un getByUuid plutôt qu'un getAll
+          const { description, label, image_path } = datas.data.find(
+            (shooting: ShootingProps) => shooting.uuid === uuid
+          );
+          const scriptListPhp = getPathListPhp(image_path);
 
-            const { description, label, image_path } = datas.data.find(
-              (shooting: ShootingProps) => shooting.uuid === uuid
-            );
-
-            const parsedData = formateDatas(getFileName(mockListFiles));
-            console.log(parsedData);
-
-            setTitle(label);
-            setDescription(description);
-            setFolderName(`${image_path}`);
-            setPhotos(parsedData);
-            setFilterStartTime(parsedData.sort(sortAsc)[0]?.time || 0);
-            setFilterEndTime(parsedData.sort(sortDesc)[0]?.time || 0);
-          });
-      } else {
-        // production mode
-        fetch(
-          "https://viewer.gils.xyz/backend/shooting/get-all.php" /*, { headers: getHeader() }*/
-        )
-          .then((response) => response.json())
-          .then((datas) => {
-            // TODO utiliser un getByUuid plutôt qu'un getAll
-            const { description, label, image_path } = datas.data.find(
-              (shooting: ShootingProps) => shooting.uuid === uuid
-            );
-            const scriptPhp = `../images/${image_path}/list.php`;
-
-            fetch(scriptPhp, { headers: getHeader() })
-              .then((responseList) => responseList.json())
-              .then((listFiles) => {
-                const parsedData = formateDatas(getFileName(listFiles));
-                setTitle(label);
-                setDescription(description);
-                setFolderName(`${image_path}`);
-                setPhotos(parsedData);
-                setFilterStartTime(parsedData.sort(sortAsc)[0]?.time || 0);
-                setFilterEndTime(parsedData.sort(sortDesc)[0]?.time || 0);
-              });
-          });
-      }
+          fetch(scriptListPhp /*, { headers: getHeader() }*/)
+            .then((responseList) => responseList.json())
+            .then((listFiles) => {
+              const parsedData = formateDatas(getFileName(listFiles));
+              setTitle(label);
+              setDescription(description);
+              setFolderName(`${image_path}`);
+              setPhotos(parsedData);
+              setFilterStartTime(parsedData.sort(sortAsc)[0]?.time || 0);
+              setFilterEndTime(parsedData.sort(sortDesc)[0]?.time || 0);
+            });
+        });
+      // }
     }
   }, [uuid]);
 
@@ -176,65 +153,86 @@ const ShootingV2 = () => {
                   </Text>
                   <Title level={3}>
                     <Text type="secondary">
-                      2️⃣ Choisissez votre mode de paiement :
+                      2️⃣ Payement, plusieurs options s'offrent à vous :
                     </Text>
                   </Title>
                   <strong style={{ marginLeft: 16 }}>
-                    Option 1 - Paiement via PayPal
+                    Option 1 - Paiement via mon site, réalisez le paiement via
+                    l'un des pack ci-dessous, envoyez moi un mail à
+                    <a href="mailto:phan.gilles@gmail.com?subject=Question%20concernant%20les%20commandes%20photos">
+                      phan.gilles@gmail.com
+                    </a>{" "}
+                    avec votre email et les photos désirées. Vous recevrez vos
+                    photos sous quelques jours.
                   </strong>
                   <ul style={{ marginLeft: 24 }}>
                     <li>
-                      Vérifiez les tarifs{" "}
-                      <a target="_blank" href="https://phan.photo/princing">
-                        ici
+                      <a
+                        target="_blank"
+                        href="https://buy.stripe.com/8wMaGIcrdbWA6je7ss"
+                      >
+                        Photo numérique (x1) - 10€
                       </a>
                     </li>
                     <li>
-                      Effectuez votre paiement sur PayPal à l’adresse
-                      phan.gilles@gmail.com
+                      <a
+                        target="_blank"
+                        href="https://buy.stripe.com/14kbKM0Iv7GkgXS145"
+                      >
+                        Photo numérique (x3) - 20€
+                      </a>
                     </li>
                     <li>
-                      Envoyez-moi un email avec :
-                      <ul>
-                        <li>La date de votre commande</li>
-                        <li>La liste des photos commandées</li>
-                        <li>
-                          (<em>Important</em>) Si votre compte PayPal utilise
-                          une adresse différente, merci de me le préciser.
-                        </li>
-                      </ul>
+                      <a
+                        target="_blank"
+                        href="https://buy.stripe.com/3csaGIgHt5yc8rm4gi"
+                      >
+                        Photo numérique (x5) - 30€
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        target="_blank"
+                        href="https://buy.stripe.com/aEU5mobn98Koazu4gm"
+                      >
+                        Photo numérique (passage complet) - 50€, +20€/passage
+                        sup.
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        target="_blank"
+                        href="https://buy.stripe.com/00g024gHte4IdLG6ov"
+                      >
+                        Tirage papier (x1) - 15€
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        target="_blank"
+                        href="https://buy.stripe.com/eVa024aj53q4dLG4go"
+                      >
+                        Tirage papier (x3) - 30€
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        target="_blank"
+                        href="https://buy.stripe.com/7sI4ikaj51hW7ni7sB"
+                      >
+                        Tirage papier (x5) - 45€
+                      </a>
                     </li>
                   </ul>
                   <strong style={{ marginLeft: 16 }}>
-                    Option 2 - Paiement via mon site
+                    Option 2 - Paiement en magasin
                   </strong>
                   <ul style={{ marginLeft: 24 }}>
                     <li>
-                      Payez directement sur mon site dans la{" "}
-                      <a target="_blank" href="https://phan.photo/princing">
-                        section Tarifs
-                      </a>
+                      Payez chez PADD - Roanne, en espèce, par CB sans contact
+                      ou avec votre téléphone.
                     </li>
-                    <li>
-                      Sélectionnez le pack correspondant au nombre de photos
-                      commandées
-                    </li>
-                    <li>
-                      Envoyez-moi un email avec :
-                      <ul>
-                        <li>La date de votre commande</li>
-                        <li>La liste des photos commandées</li>
-                        <li>
-                          (Si vous commandez un tirage papier) : indiquez-moi
-                          l’adresse de livraison
-                        </li>
-                        <li>
-                          (<em>Important</em>) Merci d’utiliser la même adresse
-                          email que celle de votre commande. Si ce n’est pas le
-                          cas, précisez-le dans votre message.
-                        </li>
-                      </ul>
-                    </li>
+                    <li>Pensez à sélectionner vos photos en amont.</li>
                   </ul>
                   <Title level={3}>
                     <Text type="secondary">📩 Une question ?</Text>
@@ -274,66 +272,82 @@ const ShootingV2 = () => {
               .filter((_, id) => id >= idPhotoStart && id <= idPhotoEnd)
               .map((photo, id) => (
                 <Col key={id} xs={24} md={12} xl={6} xxl={4}>
-                  <Card
-                    hoverable
-                    style={{ width: "100%", height: "98%", marginTop: 8 }}
-                    onClick={() => openImageViewer(id)}
-                    cover={
-                      <img
-                        alt={`Photo : ${photo.name}.jpg`}
-                        src={getThumbnailPathFromSd(
-                          `/images/${folderName}/${photo.name}.jpg`
-                        )}
-                      />
-                    }
-                  >
-                    <Meta
-                      title={photo.name.slice(5, -3)}
-                      description={numberToTime(+photo.name.substring(0, 4))}
-                      style={{ marginBottom: 12 }}
-                    />
-                    {IS_BUY_BUTTON_DISPLAYED && (
-                      <>
-                        <button
-                          className="btn btn-success bg-light"
-                          onClick={() => addToCard(photo.name.slice(0, -3))}
-                        >
-                          <Icon icon="card-shoping" size={1} />
-                        </button>{" "}
-                      </>
-                    )}
-                    <button
-                      className="btn btn-success bg-light"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        copyText(photo.name.slice(0, -3));
-                      }}
+                  {isZip(photo.name) ? (
+                    <Card
+                      hoverable
+                      style={{ width: "100%", height: "98%", marginTop: 8 }}
+                      cover={<img alt={photo.name} src={getZip()} />}
                     >
-                      <Icon icon="copy" size={1} />
-                    </button>{" "}
-                    <a
-                      href={`/images/${folderName}/${photo.name}.jpg`}
-                      className="btn btn-success bg-light"
-                      onClick={(e) => e.stopPropagation()}
-                      download
-                    >
-                      <Icon icon="download" size={1} />
-                    </a>{" "}
-                    {photo.isHdExist && (
-                      // TODO remplacer les a par des link
+                      <Meta title={photo.name} style={{ marginBottom: 12 }} />
                       <a
-                        href={`/images/${folderName}/${photo.name.replace(
-                          "_SD",
-                          "_HD"
-                        )}.jpg`}
+                        href={`${URL}/images/${folderName}/${photo.name}`}
                         className="btn btn-success bg-light"
                         onClick={(e) => e.stopPropagation()}
                         download
                       >
-                        <Icon icon="hd" size={1} />
+                        <Icon icon="download" size={1} />
                       </a>
-                    )}
-                  </Card>
+                    </Card>
+                  ) : (
+                    <Card
+                      hoverable
+                      style={{ width: "100%", height: "98%", marginTop: 8 }}
+                      onClick={() => openImageViewer(id)}
+                      cover={
+                        <img
+                          alt={`Photo : ${photo.name}.jpg`}
+                          src={getThumbnailPath(folderName, photo.name)}
+                        />
+                      }
+                    >
+                      <Meta
+                        title={photo.name.slice(5, -3)}
+                        description={numberToTime(+photo.name.substring(0, 4))}
+                        style={{ marginBottom: 12 }}
+                      />
+                      {IS_BUY_BUTTON_DISPLAYED && (
+                        <>
+                          <button
+                            className="btn btn-success bg-light"
+                            onClick={() => addToCard(photo.name.slice(0, -3))}
+                          >
+                            <Icon icon="card-shoping" size={1} />
+                          </button>{" "}
+                        </>
+                      )}
+                      <button
+                        className="btn btn-success bg-light"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          copyText(photo.name.slice(0, -3));
+                        }}
+                      >
+                        <Icon icon="copy" size={1} />
+                      </button>{" "}
+                      <a
+                        href={`${URL}/images/${folderName}/${photo.name}.jpg`}
+                        className="btn btn-success bg-light"
+                        onClick={(e) => e.stopPropagation()}
+                        download
+                      >
+                        <Icon icon="download" size={1} />
+                      </a>{" "}
+                      {photo.isHdExist && (
+                        // TODO remplacer les a par des link
+                        <a
+                          href={`${URL}/images/${folderName}/${photo.name.replace(
+                            "_SD",
+                            "_HD"
+                          )}.jpg`}
+                          className="btn btn-success bg-light"
+                          onClick={(e) => e.stopPropagation()}
+                          download
+                        >
+                          <Icon icon="hd" size={1} />
+                        </a>
+                      )}
+                    </Card>
+                  )}
                 </Col>
               ))}
           </Row>
@@ -361,7 +375,7 @@ const ShootingV2 = () => {
                 .filter(filterByTime(filterStartTime, filterEndTime))
                 .map(
                   (photo: FormatedPhotosProps) =>
-                    `/images/${folderName}/${photo.name}.jpg`
+                    `${URL}/images/${folderName}/${photo.name}.jpg`
                 )}
               currentIndex={currentImageIndex}
               disableScroll={false}

@@ -1,13 +1,27 @@
 import { ShootingProps } from "./Shootings.interface";
 
+export const URL = "https://viewer.gils.xyz";
 export const sortByShootingDate = (s1: ShootingProps, s2: ShootingProps) =>
   new Date(s1.date).getTime() - new Date(s2.date).getTime();
 
 export const getPathFromShooting = (shooting: ShootingProps) => {
   const folder = "images";
   const { image_path, thumbnail } = shooting;
-  return [folder, image_path,thumbnail].join("/");
+  return [URL, folder, image_path, thumbnail].join("/");
 };
+
+export const getZip = () => [URL, "images", "zip.jpg"].join("/");
+
+export const getThumbnailPath = (folderName: string, photoName: string) =>
+  [
+    URL,
+    "images",
+    folderName,
+    `${photoName.replace("_SD", "_thumbnail")}.jpg`,
+  ].join("/");
+
+export const getPathListPhp = (image_path: string) =>
+  [URL, "images", image_path, "list.php"].join("/");
 
 export const formatDate = (strDate: string) => {
   const res = new Date(strDate).toLocaleDateString("fr-FR", {

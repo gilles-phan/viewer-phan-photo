@@ -13,6 +13,9 @@ export const mockDatas = [
 },
 ];
 
+/**
+ *  @deprecated
+ */
 export const mockListFiles = [
   "1752_Z91_9980_SD.jpg",
   "1752_Z91_0010_SD.jpg",
