@@ -14,6 +14,7 @@ import { ShootingProps } from "../Shootings/Shootings.interface";
 import {
   formatDate,
   getPathFromShooting,
+  sortByLabel,
   sortByShootingDate,
 } from "../Shootings/Shootings.utils";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -81,6 +82,8 @@ const ShootingsV2 = () => {
             {shootings
               .filter(filterByHidden(showHidden))
               .filter(filterBySearch)
+
+              .sort(sortByLabel)
               .sort(sortByShootingDate)
               .reverse()
               .map((shooting, id) => (

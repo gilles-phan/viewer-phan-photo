@@ -158,12 +158,12 @@ const ShootingV2 = () => {
                   </Title>
                   <strong style={{ marginLeft: 16 }}>
                     Option 1 - Paiement via mon site, réalisez le paiement via
-                    l'un des pack ci-dessous, envoyez moi un mail à
+                    l'un des pack ci-dessous, envoyez moi un mail à{" "}
                     <a href="mailto:phan.gilles@gmail.com?subject=Question%20concernant%20les%20commandes%20photos">
                       phan.gilles@gmail.com
                     </a>{" "}
                     avec votre email et les photos désirées. Vous recevrez vos
-                    photos sous quelques jours.
+                    photos retravaillées sous quelques jours.
                   </strong>
                   <ul style={{ marginLeft: 24 }}>
                     <li>
@@ -324,27 +324,31 @@ const ShootingV2 = () => {
                       >
                         <Icon icon="copy" size={1} />
                       </button>{" "}
-                      <a
-                        href={`${URL}/images/${folderName}/${photo.name}.jpg`}
-                        className="btn btn-success bg-light"
-                        onClick={(e) => e.stopPropagation()}
-                        download
-                      >
-                        <Icon icon="download" size={1} />
-                      </a>{" "}
-                      {photo.isHdExist && (
-                        // TODO remplacer les a par des link
-                        <a
-                          href={`${URL}/images/${folderName}/${photo.name.replace(
-                            "_SD",
-                            "_HD"
-                          )}.jpg`}
-                          className="btn btn-success bg-light"
-                          onClick={(e) => e.stopPropagation()}
-                          download
-                        >
-                          <Icon icon="hd" size={1} />
-                        </a>
+                      {!title.includes("Champlong -") && (
+                        <>
+                          <a
+                            href={`${URL}/images/${folderName}/${photo.name}.jpg`}
+                            className="btn btn-success bg-light"
+                            onClick={(e) => e.stopPropagation()}
+                            download
+                          >
+                            <Icon icon="download" size={1} />
+                          </a>{" "}
+                          {photo.isHdExist && (
+                            // TODO remplacer les a par des link
+                            <a
+                              href={`${URL}/images/${folderName}/${photo.name.replace(
+                                "_SD",
+                                "_HD"
+                              )}.jpg`}
+                              className="btn btn-success bg-light"
+                              onClick={(e) => e.stopPropagation()}
+                              download
+                            >
+                              <Icon icon="hd" size={1} />
+                            </a>
+                          )}
+                        </>
                       )}
                     </Card>
                   )}

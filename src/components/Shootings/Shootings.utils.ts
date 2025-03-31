@@ -3,6 +3,8 @@ import { ShootingProps } from "./Shootings.interface";
 export const URL = "https://viewer.gils.xyz";
 export const sortByShootingDate = (s1: ShootingProps, s2: ShootingProps) =>
   new Date(s1.date).getTime() - new Date(s2.date).getTime();
+export const sortByLabel = (s1: ShootingProps, s2: ShootingProps) =>
+  s2.label.localeCompare(s1.label);
 
 export const getPathFromShooting = (shooting: ShootingProps) => {
   const folder = "images";
