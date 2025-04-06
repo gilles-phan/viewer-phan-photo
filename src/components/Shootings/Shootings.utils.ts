@@ -9,7 +9,7 @@ export const sortByLabel = (s1: ShootingProps, s2: ShootingProps) =>
 export const getPathFromShooting = (shooting: ShootingProps) => {
   const folder = "images";
   const { image_path, thumbnail } = shooting;
-  return [URL, folder, image_path, thumbnail].join("/");
+  return [URL, folder, image_path, thumbnail].join("/") + `?${Date.now()}`;
 };
 
 export const getZip = () => [URL, "images", "zip.jpg"].join("/");
@@ -20,7 +20,7 @@ export const getThumbnailPath = (folderName: string, photoName: string) =>
     "images",
     folderName,
     `${photoName.replace("_SD", "_thumbnail")}.jpg`,
-  ].join("/");
+  ].join("/") + `?${Date.now()}`;
 
 export const getPathListPhp = (image_path: string) =>
   [URL, "images", image_path, "list.php"].join("/");
