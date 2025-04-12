@@ -135,6 +135,58 @@ const ShootingV2 = () => {
                 </Text>
               </Title>
             </Col>
+            {title.includes("LPEH 0") && (
+              <>
+                <Col span={24}>
+                  <Title level={2}>
+                    <Text type="secondary">
+                      Procédures pour commander des photos
+                    </Text>
+                  </Title>
+                  <Title level={3}>
+                    <Text type="secondary">
+                      1️⃣ Notez les noms des photos que vous souhaitez commander
+                    </Text>
+                  </Title>
+                  <Text style={{ marginLeft: 16 }}>
+                    Exemple : D85_7856, Z91_4577, Z91_4577
+                  </Text>
+                  <Title level={3}>
+                    <Text type="secondary">
+                      2️⃣ Régler les photos sur le Paypal des Poun's
+                    </Text>
+                  </Title>
+                  <Text style={{ marginLeft: 16 }}>
+                    Pensez à faire une capture d'écran du reçu.
+                  </Text>
+                  <Title level={3}>
+                    <Text type="secondary">
+                      3️⃣ Envoyer un mail à{" "}
+                      <a href="mailto:phan.gilles@gmail.com?subject=Commande%20Photos%20Pouns">
+                        phan.gilles@gmail.com
+                      </a>
+                    </Text>
+                  </Title>
+                  <Text style={{ marginLeft: 16 }}>
+                    En y indiquant les photos que vous avez sélectionné ainsi
+                    qu'une capture d'écran du règlement sur Paypal. Vous
+                    recevrez les photos sous 24h.
+                  </Text>
+
+                  <Title level={3}>
+                    <Text type="secondary">📩 Une question ?</Text>
+                  </Title>
+                  <Text style={{ marginLeft: 16 }}>
+                    Contactez-moi par{" "}
+                    <a href="mailto:phan.gilles@gmail.com?subject=Question%20concernant%20les%20commandes%20photos">
+                      email
+                    </a>{" "}
+                    ou par téléphone au{" "}
+                    <a href="tel:+33682509580">06 82 50 95 80</a>
+                  </Text>
+                </Col>
+              </>
+            )}
             {title.includes("Champlong -") && (
               <>
                 <Col span={24}>
