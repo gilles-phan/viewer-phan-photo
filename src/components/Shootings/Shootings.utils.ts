@@ -23,7 +23,7 @@ export const getThumbnailPath = (folderName: string, photoName: string) =>
   ].join("/") + `?${Date.now()}`;
 
 export const getPathListPhp = (image_path: string) =>
-  [URL, "images", image_path, "list.php"].join("/");
+  [URL, "images", image_path, ("list.php?t=" + Date.now())].join("/");
 
 export const formatDate = (strDate: string) => {
   const res = new Date(strDate).toLocaleDateString("fr-FR", {

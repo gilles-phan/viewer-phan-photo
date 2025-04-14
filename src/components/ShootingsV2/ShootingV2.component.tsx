@@ -25,6 +25,7 @@ import {
   getZip,
   URL,
 } from "../Shootings/Shootings.utils";
+import HeaderShooting from "./HeaderShooting/HeaderShooting.component";
 const { Title, Text } = Typography;
 const { Meta } = Card;
 
@@ -135,7 +136,8 @@ const ShootingV2 = () => {
                 </Text>
               </Title>
             </Col>
-            {title.includes("LPEH 0") && (
+            <HeaderShooting title={title} />
+            {/* {title.includes("LPEH 0") && (
               <>
                 <Col span={24}>
                   <Title level={2}>
@@ -400,7 +402,7 @@ const ShootingV2 = () => {
                   </Text>
                 </Col>
               </>
-            )}
+            )} */}
             <Col span={24}>
               <Divider />
             </Col>

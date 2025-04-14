@@ -124,7 +124,7 @@ export const Shooting = () => {
             const { description, label, image_path } = datas.data.find(
               (shooting: ShootingProps) => shooting.uuid === uuid
             );
-            const scriptPhp = `../images/${image_path}/list.php`;
+            const scriptPhp = `../images/${image_path}/list.php?t=${Date.now()}`;
 
             fetch(scriptPhp, { headers: getHeader() })
               .then((responseList) => responseList.json())
@@ -154,7 +154,15 @@ export const Shooting = () => {
       );
 
     setImages(img);
-  }, [filter, filterStartTime, filterEndTime, idPhotoStart, idPhotoEnd, photos, folderName]);
+  }, [
+    filter,
+    filterStartTime,
+    filterEndTime,
+    idPhotoStart,
+    idPhotoEnd,
+    photos,
+    folderName,
+  ]);
   return (
     <div className="shooting-wrapper">
       <h1 className="display-1">{title}</h1>
@@ -294,7 +302,7 @@ export const Shooting = () => {
           }
           onPageChange={(start: number, end: number) => {
             console.log(`PAGE CHANGE : ${start} to ${end}`);
-            
+
             setIdPhotoStart(start);
             setIdPhotoEnd(end);
           }}
