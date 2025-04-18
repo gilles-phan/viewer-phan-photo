@@ -10,11 +10,11 @@ import {
   sortAsc,
   sortDesc,
   filterByTime,
-  sortByTime,
   getFileName,
   IS_BUY_BUTTON_DISPLAYED,
   filterByName,
   isZip,
+  filterByJpg,
 } from "../Shooting/Shooting.utils";
 import { ShootingProps } from "../Shootings/Shootings.interface";
 import Icon from "../../icons/Icon.component";
@@ -103,16 +103,21 @@ const ShootingV2 = () => {
           fetch(scriptListPhp /*, { headers: getHeader() }*/)
             .then((responseList) => responseList.json())
             .then((listFiles) => {
-              const parsedData = formateDatas(getFileName(listFiles));
+              const parsedData = formateDatas(getFileName(listFiles)).sort(
+                sortDesc
+              );
               setTitle(label);
               setDescription(description);
               setFolderName(`${image_path}`);
               setPhotos(parsedData);
-              setFilterStartTime(parsedData.sort(sortAsc)[0]?.time || 0);
-              setFilterEndTime(parsedData.sort(sortDesc)[0]?.time || 0);
+              setFilterStartTime(
+                parsedData.filter(filterByJpg).sort(sortAsc)[0]?.time || 0
+              );
+              setFilterEndTime(
+                parsedData.filter(filterByJpg).sort(sortDesc)[0]?.time || 0
+              );
             });
         });
-      // }
     }
   }, [uuid]);
 
@@ -423,7 +428,7 @@ const ShootingV2 = () => {
           </Row>
           <Row gutter={8}>
             {photos
-              .sort(sortByTime)
+              .sort(sortAsc)
               .filter(filterByName(filter))
               .filter(filterByTime(filterStartTime, filterEndTime))
               .filter((_, id) => id >= idPhotoStart && id <= idPhotoEnd)
@@ -533,7 +538,7 @@ const ShootingV2 = () => {
           <div className="image-viewer-wrapper">
             <ImageViewer
               src={photos
-                .sort(sortByTime)
+                .sort(sortAsc)
                 .filter(filterByName(filter))
                 .filter(filterByTime(filterStartTime, filterEndTime))
                 .map(

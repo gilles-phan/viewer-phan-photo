@@ -14,7 +14,6 @@ import {
   sortAsc,
   sortDesc,
   filterByTime,
-  sortByTime,
   getThumbnailPathFromSd,
   getFileName,
   IS_SLIDER_DISPLAYED,
@@ -144,7 +143,7 @@ export const Shooting = () => {
 
   useEffect(() => {
     const img: Array<string> = photos
-      .sort(sortByTime)
+      .sort(sortAsc)
       .filter(filterByName(filter))
       .filter(filterByTime(filterStartTime, filterEndTime))
       .filter((_, id) => id >= idPhotoStart && id < idPhotoEnd)
@@ -218,7 +217,7 @@ export const Shooting = () => {
       </div>
       <div className="photos-wrapper">
         {photos
-          .sort(sortByTime)
+          .sort(sortAsc)
           .filter(filterByName(filter))
           .filter(filterByTime(filterStartTime, filterEndTime))
           .filter((_, id) => id >= idPhotoStart && id < idPhotoEnd)

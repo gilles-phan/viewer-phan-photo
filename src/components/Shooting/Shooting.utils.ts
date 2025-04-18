@@ -39,17 +39,15 @@ export const sortDesc = (
   photo2: FormatedPhotosProps
 ) => photo2.time - photo1.time;
 
+export const filterByJpg = (photo: FormatedPhotosProps) => !isZip(photo.name);
+
 export const filterByTime =
   (start: number, end: number) => (photo: FormatedPhotosProps) =>
-    isZip(photo.name) || photo.time >= start && photo.time <= end;
+    isZip(photo.name) || (photo.time >= start && photo.time <= end);
 
 export const filterByName = (text: string) => (photo: FormatedPhotosProps) =>
   photo.name.toLowerCase().includes(text);
 
-export const sortByTime = (
-  photo1: FormatedPhotosProps,
-  photo2: FormatedPhotosProps
-) => photo1.time - photo2.time;
 
 /**
  *
@@ -64,7 +62,7 @@ const filterSdHdZip = (fileName: string) =>
   fileName.includes("_SD") || fileName.includes("_HD") || isZip(fileName);
 const removeExtensionJpg = (fileName: string) => fileName.replace(".jpg", "");
 const removeHD = (file: { time: number; name: string; isHdExist: boolean }) =>
-  !file.name.includes("_HD") ;
+  !file.name.includes("_HD");
 
 export const getFileName = (listFiles: Array<string>) =>
   listFiles.filter(filterSdHdZip).map(removeExtensionJpg);
