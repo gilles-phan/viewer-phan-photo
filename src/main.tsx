@@ -9,6 +9,7 @@ import { Shootings } from "./components/Shootings/Shootings.component.tsx";
 import { Login } from "./components/Login/Login.component.tsx";
 import ShootingsV2 from "./components/ShootingsV2/ShootingsV2.component.tsx";
 import ShootingV2 from "./components/ShootingsV2/ShootingV2.component.tsx";
+import ShootingsV3 from "./components/ShootingsV3/ShootingsV3.component.tsx";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
   {
     path: "/shootings/:uuid",
     element: <ShootingV2 />,
+  },
+  {
+    path: "/shootings-next",
+    element: <ShootingsV3 />,
   },
 ]);
 
